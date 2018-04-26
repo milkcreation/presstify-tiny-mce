@@ -11,99 +11,96 @@
 
 namespace tiFy\Plugins\TinyMce;
 
+use Illuminate\Support\Arr;
 use tiFy\App\Plugin;
-use tiFy\Plugins\TinyMce\ExternalPlugins\Dashicons\Dashicons;
-use tiFy\Plugins\TinyMce\ExternalPlugins\FontAwesome\FontAwesome;
-use tiFy\Plugins\TinyMce\ExternalPlugins\Genericons\Genericons;
-use tiFy\Plugins\TinyMce\ExternalPlugins\JumpLine\JumpLine;
-use tiFy\Plugins\TinyMce\ExternalPlugins\OwnGlyphs\OwnGlyphs;
-use tiFy\Plugins\TinyMce\ExternalPlugins\Table\Table;
-use tiFy\Plugins\TinyMce\ExternalPlugins\Template\Template;
-use tiFy\Plugins\TinyMce\ExternalPlugins\VisualBlocks\VisualBlocks;
+use tiFy\Plugins\TinyMce\Plugins\Dashicons\Dashicons;
+use tiFy\Plugins\TinyMce\Plugins\FontAwesome\FontAwesome;
+use tiFy\Plugins\TinyMce\Plugins\Genericons\Genericons;
+use tiFy\Plugins\TinyMce\Plugins\JumpLine\JumpLine;
+use tiFy\Plugins\TinyMce\Plugins\OwnGlyphs\OwnGlyphs;
+use tiFy\Plugins\TinyMce\Plugins\Table\Table;
+use tiFy\Plugins\TinyMce\Plugins\Template\Template;
+use tiFy\Plugins\TinyMce\Plugins\VisualBlocks\VisualBlocks;
 
-class TinyMce extends Plugin
+final class TinyMce extends Plugin
 {
-    // Liste des boutons actifs
-    private static $Buttons = [];
-    // Liste des url vers les plugins externes déclarés
-    private static $RegistredExternalPluginsUrl = [];
-    // Configuration des plugins externes déclarés
-    private static $RegistredExternalPluginsConf = [];
-    // Liste des plugins externes actifs
-    private static $ExternalPluginsActive = [];
-    // Liste des plugins externes actifs
-    private static $ExternalPluginsConfig = [];
-
     /**
      * Liste des plugins disponibles.
      * @var array
      */
-    protected $plugins = [
-        'dashicons',
-        'fontawesome',
-        'genericons',
-        'jumpline',
-        'ownglyphs',
-        'table',
-        'template',
-        'visualblocks'
+    protected $availablePlugins = [
+        Dashicons::class,
+        FontAwesome::class,
+        Genericons::class,
+        Jumpline::class,
+        OwnGlyphs::class,
+        Table::class,
+        Template::class,
+        VisualBlocks::class
     ];
 
-    /* = CONSTRUCTEUR = */
+    /**
+     * Liste des plugins déclarés.
+     * @var array
+     */
+    protected $registeredPlugins = [];
+
+    /**
+     * CONSTRUCTEUR.
+     *
+     * @return void
+     */
     public function __construct()
     {
         parent::__construct();
 
-        // Récupération de la configuration des plugins externe
-        self::$ExternalPluginsConfig = $this->appConfig('external_plugins', [])
-            ? : [];
+        // Instanciation des plugins disponibles.
+        foreach($this->availablePlugins as $plugin) :
+            new $plugin($this);
+        endforeach;
 
-        // Chargement des plugins
-        new Dashicons();
-        new FontAwesome();
-        new Genericons();
-        new JumpLine();
-        new OwnGlyphs();
-        new Table();
-        new Template();
-        new VisualBlocks();
+        // Définition des plugins actifs
+        $this->setActivePlugins();
 
-        $this->appAddAction('tiny_mce_before_init');
-        $this->appAddAction('mce_external_plugins');
+        // Déclaration des événements de déclenchement
+        $this->appAddFilter('tiny_mce_before_init');
+        $this->appAddFilter('mce_external_plugins');
     }
 
-    /* = ACTIONS ET FILTRES WORDPRESS = */
-    /** == Initialisation des paramètres de tinyMCE == **/
+    /**
+     * Pré-filtrage des paramètres de configuration de tinyMce.
+     *
+     * @param array $mceInit Paramètres initiaux de tinyMce.
+     *
+     * @return array
+     */
     final public function tiny_mce_before_init($mceInit)
     {
-        // Traitement de la configuration personnalisée
-        if ($init = self::tFyAppConfig('init')) :
+        if ($init = $this->appConfig('init', [])) :
             foreach ((array)$init as $key => $value) :
                 switch ($key) :
-                    default            :
-                        if (is_array($value)) {
-                            $mceInit[$key] = json_encode($value);
-                        } elseif (is_string($value)) {
-                            $mceInit[$key] = $value;
-                        }
+                    default :
+                        $mceInit[$key] = is_array($value)
+                            ? json_encode($value)
+                            : (string) $value;
                         break;
-                    case 'toolbar'    :
+                    case 'toolbar' :
                         break;
-                    case 'toolbar1'    :
-                    case 'toolbar2'    :
-                    case 'toolbar3'    :
-                    case 'toolbar4'    :
+                    case 'toolbar1' :
+                    case 'toolbar2' :
+                    case 'toolbar3' :
+                    case 'toolbar4' :
                         $mceInit[$key] = $value;
-                        $this->registerButtons(explode(' ', $value));
+                        $this->extractPluginsButtons($value);
                         break;
                 endswitch;
             endforeach;
         endif;
 
         // Traitement des plugins externes
-        foreach ((array)$this->getExternalPluginsActive() as $name) :
-            // Ajout des boutons de plugins non initiés dans la barre d'outil
-            if (!in_array($name, self::$Buttons)) :
+        foreach ($this->getActivePlugins() as $name => $attrs) :
+            // Ajout des boutons du plugin lorsque celui ci n'a pas été pré-déclaré dans la configuration précédente.
+            if (! $this->hasPluginButton($name)) :
                 if (!empty($mceInit['toolbar3'])) :
                     $mceInit['toolbar3'] .= ' ' . $name;
                 else :
@@ -112,87 +109,178 @@ class TinyMce extends Plugin
             endif;
 
             // Traitement de la configuration
-            if (isset(self::$RegistredExternalPluginsConf[$name])) :
-                foreach ((array)self::$RegistredExternalPluginsConf[$name] as $key => $value) :
-                    if (isset($mceInit[$key])) :
-                        continue;
-                    elseif (is_array($value)) :
-                        $mceInit[$key] = json_encode($value);
-                    elseif (is_string($value)) :
-                        $mceInit[$key] = $value;
-                    endif;
-                endforeach;
+            if (! $config = $this->getPluginConfig($name)) :
+                continue;
             endif;
+
+            foreach ($config as $key => $value) :
+                if (isset($mceInit[$key])) :
+                    continue;
+                elseif (is_array($value)) :
+                    $mceInit[$key] = json_encode($value);
+                else :
+                    $mceInit[$key] = (string) $value;
+                endif;
+            endforeach;
         endforeach;
 
         return $mceInit;
     }
 
-    /** == Mise en file des plugins complémentaires == **/
+    /**
+     * Déclaration de la liste des plugins dans tinyMce.
+     *
+     * @param array $plugins Liste des url de plugin pré-définis dans tinyMce.
+     *
+     * @return string[]
+     */
     final public function mce_external_plugins($plugins = [])
     {
-        foreach ($this->getExternalPluginsActive() as $name) :
-            $plugins[$name] = self::$RegistredExternalPluginsUrl[$name];
+        foreach ($this->getActivePlugins() as $name => $attrs) :
+            if (! $url = $this->getPluginUrl($name)) :
+                continue;
+            endif;
+
+            $plugins[$name] = $url;
         endforeach;
 
         return $plugins;
     }
 
-    /* = CONTRÔLEUR = */
-    /** == Déclaration de plugin externe == **/
-    final static function registerExternalPlugin($name, $url, $config = [])
+    /**
+     * Déclaration d'un plugin.
+     *
+     * @param string $name Identifiant de qualification du plugin.
+     * @param string $url Url vers le plugin JS.
+     *
+     * @return bool
+     */
+    public function registerPlugin($name, $url)
     {
-        self::$RegistredExternalPluginsUrl[$name] = $url;
-
-        if (!empty($config)) {
-            self::$RegistredExternalPluginsConf[$name] = $config;
-        }
+        Arr::set($this->registeredPlugins, $name, ['active' => false, 'url' => $url]);
     }
 
-    /** == Récupération des plugins externes actifs == **/
-    public function getExternalPluginsActive()
+    /**
+     * Vérification d'existance de déclaration d'un plugin.
+     *
+     * @param string $name Identifiant de qualification du plugin.
+     *
+     * @return bool
+     */
+    public function isRegisteredPlugin($name)
     {
-        if (!empty(self::$ExternalPluginsActive)) {
-            return self::$ExternalPluginsActive;
-        }
+        return in_array($name, array_keys($this->registeredPlugins));
+    }
 
-        if (!self::tFyAppConfig('external_plugins')) {
-            return [];
-        }
-
-        $plugins = [];
-        foreach ((array)self::tFyAppConfig('external_plugins') as $k => $v) :
-            $name = false;
-            if (is_string($k)) {
-                $name = $k;
-            } elseif (is_string($v)) {
-                $name = $v;
-            }
-
-            if ($name && in_array($name, array_keys(self::$RegistredExternalPluginsUrl)) && !in_array($name,
-                    $plugins)) {
-                array_push($plugins, $name);
-            }
+    /**
+     * Définition de la liste des plugins actifs.
+     *
+     * @return void
+     */
+    public function setActivePlugins()
+    {
+        foreach ($this->appConfig('external_plugins', []) as $k => $v) :
+            if (! $name = is_string($k) ? $k : (is_string($v) ? $v : '')) :
+                continue;
+            elseif ($this->isRegisteredPlugin($name)) :
+                $this->registeredPlugins[$name]['active'] = true;
+            endif;
         endforeach;
-
-        return self::$ExternalPluginsActive = $plugins;
     }
 
-    /** == Récupération de la configuration d'un plugin déclaré == **/
-    final static function getExternalPluginConfig($name)
+    /**
+     * Récupération de la liste des plugins actifs
+     *
+     * @return array
+     */
+    public function getActivePlugins()
     {
-        if (isset(self::$ExternalPluginsConfig[$name])) {
-            return self::$ExternalPluginsConfig[$name];
-        }
-    }
-
-    /** == Déclaration des boutons == **/
-    final static function registerButtons($buttons = [])
-    {
-        foreach ((array)$buttons as $button) :
-            if (!in_array($button, self::$Buttons)) {
-                array_push(self::$Buttons, $button);
+        return Arr::where(
+            $this->registeredPlugins,
+            function($row) {
+                return ($row['active'] === true);
             }
+        );
+    }
+
+    /**
+     * Vérifie si un plugin est actif.
+     *
+     * @return bool
+     */
+    public function isActivePlugin($name)
+    {
+        return (bool)Arr::get($this->registeredPlugins, "{$name}.active", false);
+    }
+
+    /**
+     * Récupération de l'url d'un plugin.
+     *
+     * @param string $name Identifiant de qualification du plugin.
+     *
+     * @return string
+     */
+    public function getPluginUrl($name)
+    {
+        return Arr::get($this->registeredPlugins, "{$name}.url", '');
+    }
+
+    /**
+     * Définition des attributs de configuration d'un plugin.
+     *
+     * @param string $name Identifiant de qualification du plugin.
+     * @param array $config Liste des attributs de configuration à définir
+     *
+     * @return void
+     */
+    public function setPluginConfig($name, $config)
+    {
+        if (did_action('tiny_mce_before_init')) :
+            wp_die(__('La configuration des plugins tinyMce doit être appelé avant le filtre "tiny_mce_before_init"', 'tify'));
+        endif;
+
+        Arr::set($this->registeredPlugins, "{$name}.config", $config);
+    }
+
+    /**
+     * Récupération de la configuration d'un plugin.
+     *
+     * @param string $name Identifiant de qualification du plugin.
+     *
+     * @return mixed
+     */
+    public function getPluginConfig($name)
+    {
+        return Arr::get($this->registeredPlugins, "{$name}.config", []);
+    }
+
+    /**
+     * Extraction des boutons de plugin déclaré dans le fichier de configuration tinyMce.
+     *
+     * @param string $buttons Liste des boutons définis dans la configuration.
+     *
+     * @return void
+     */
+    public function extractPluginsButtons($buttons = '')
+    {
+        $_buttons = preg_split('#\||\s#', $buttons, -1, PREG_SPLIT_NO_EMPTY);
+
+        foreach ($_buttons as $name) :
+            if ($this->isRegisteredPlugin($name)) :
+                $this->registeredPlugins[$name]['button'] = true;
+            endif;
         endforeach;
+    }
+
+    /**
+     * Vérification d'existance d'un bouton déclaré
+     *
+     * @param string $name Identifiant de qualification du bouton.
+     *
+     * @return bool
+     */
+    public function hasPluginButton($name)
+    {
+        return (bool)Arr::get($this->registeredPlugins, "{$name}.button", false);
     }
 }
