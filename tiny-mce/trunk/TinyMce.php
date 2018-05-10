@@ -5,14 +5,14 @@
  * @desc Extension PresstiFy de gestion l'interface d'administration de Wordpress.
  * @author Jordy Manner <jordy@milkcreation.fr>
  * @package presstiFy
- * @namespace \tiFy\Plugins\AdminUi
- * @version 1.0.0
+ * @namespace \tiFy\Plugins\TinyMce
+ * @version 2.0.0
  */
 
 namespace tiFy\Plugins\TinyMce;
 
 use Illuminate\Support\Arr;
-use tiFy\App\Plugin;
+use tiFy\Apps\AppController;
 use tiFy\Plugins\TinyMce\Plugins\Dashicons\Dashicons;
 use tiFy\Plugins\TinyMce\Plugins\FontAwesome\FontAwesome;
 use tiFy\Plugins\TinyMce\Plugins\Genericons\Genericons;
@@ -22,7 +22,7 @@ use tiFy\Plugins\TinyMce\Plugins\Table\Table;
 use tiFy\Plugins\TinyMce\Plugins\Template\Template;
 use tiFy\Plugins\TinyMce\Plugins\VisualBlocks\VisualBlocks;
 
-final class TinyMce extends Plugin
+final class TinyMce extends AppController
 {
     /**
      * Liste des plugins disponibles.
