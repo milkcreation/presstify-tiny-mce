@@ -31,10 +31,6 @@ class JumpLine extends AbstractPlugin
      */
     public function init()
     {
-        if (! $this->isActive()) :
-            return;
-        endif;
-
         parent::init();
 
         $this->appAddAction('admin_init');
@@ -82,7 +78,7 @@ class JumpLine extends AbstractPlugin
      */
     public function mce_css($mce_css)
     {
-        return $mce_css .= ', ' . self::tFyAppUrl(get_class()) . '/editor.css';
+        return $mce_css .= ', ' . $this->appUrl() . '/editor.css';
     }
 
     /**
@@ -92,6 +88,8 @@ class JumpLine extends AbstractPlugin
      */
     public function wp_enqueue_scripts()
     {
-        wp_enqueue_style('TinyMcePluginJumpLine', $this->appUrl() . '/theme.css', [], 160625);
+        if ($this->getConfig('wp_enqueue_style') && $this->isActive()) :
+            wp_enqueue_style('TinyMcePluginJumpLine', $this->appUrl() . '/theme.css', [], 160625);
+        endif;
     }
 }
