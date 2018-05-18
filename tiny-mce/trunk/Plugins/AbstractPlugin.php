@@ -3,12 +3,12 @@
 namespace tiFy\Plugins\TinyMce\Plugins;
 
 use Illuminate\Support\Arr;
-use tiFy\App\Traits\App as TraitsApp;
+use tiFy\Apps\AppTrait;
 use tiFy\Plugins\TinyMce\TinyMce;
 
 abstract class AbstractPlugin
 {
-    use TraitsApp;
+    use AppTrait;
 
     /**
      * Classe de rappel du plugin tinyMce
@@ -38,9 +38,8 @@ abstract class AbstractPlugin
         $this->tinyMce = $tinyMce;
 
         // Déclaration du plugin
-        if (file_exists($this->appDirname())) :
-            $this->tinyMce->registerPlugin($this->name, $this->appUrl() . '/plugin.js');
-        endif;
+        $url = $this->appUrl(get_called_class()) . '/plugin.js';
+        $this->tinyMce->registerPlugin($this->name, $url);
 
         $this->appAddAction('init', null, 0);
     }
@@ -116,11 +115,6 @@ abstract class AbstractPlugin
      */
     public function init()
     {
-        if (! $this->isActive()) :
-            return;
-        endif;
-
         $this->setConfig();
     }
-
 }

@@ -19,10 +19,6 @@ class OwnGlyphs extends AbstractPluginGlyph
      */
     public function init()
     {
-        if (! $this->isActive()) :
-            return;
-        endif;
-
         parent::init();
 
         $this->appAddAction('wp_ajax_tinymce-ownglyphs-class', [$this, 'wp_ajax']);
@@ -35,7 +31,7 @@ class OwnGlyphs extends AbstractPluginGlyph
      */
     final public function admin_head()
     {
-?><script type="text/javascript">/* <![CDATA[ */var glyphs = <?php echo $this->parseGlyphs();?>, tinymceOwnGlyphsl10n = {'title': '<?php echo $this->getConfig('title'); ?>'}; /* ]]> */</script><?php
+?><script type="text/javascript">/* <![CDATA[ */var glyphs = <?php echo json_encode($this->parseGlyphs());?>, tinymceOwnGlyphsl10n = {'title': '<?php echo $this->getConfig('title'); ?>'}; /* ]]> */</script><?php
     }
 
     /**
