@@ -40,10 +40,6 @@ class Template extends AbstractPlugin
      */
     public function init()
     {
-        if (! $this->isActive()) :
-            return;
-        endif;
-
         parent::init();
 
         $this->appAddFilter('mce_css');
@@ -70,52 +66,52 @@ class Template extends AbstractPlugin
             [
                 "title"       => "2 Colonnes : 1/4, 3/4",
                 "description" => "1 colonne d'1/4 et l'autre de 3/4",
-                "url"         => self::tFyAppUrl() . "/templates/2cols_0.25-0.75.htm"
+                "url"         => $this->appUrl() . "/templates/2cols_0.25-0.75.htm"
             ],
             [
                 "title"       => "2 Colonnes : 1/3, 2/3",
                 "description" => "1 colonne d'1/3 et l'autre de 2/3",
-                "url"         => self::tFyAppUrl() . "/templates/2cols_0.33-0.66.htm"
+                "url"         => $this->appUrl() . "/templates/2cols_0.33-0.66.htm"
             ],
             [
                 "title"       => "2 Colonnes : 1/2, 1/2",
                 "description" => "1 colonnes d'1/2 et l'autre d'1/2",
-                "url"         => self::tFyAppUrl() . "/templates/2cols_0.5-0.5.htm"
+                "url"         => $this->appUrl() . "/templates/2cols_0.5-0.5.htm"
             ],
             [
                 "title"       => "2 Colonnes : 2/3, 1/3",
                 "description" => "1 colonne de 2/3 et l'autre d'1/3",
-                "url"         => self::tFyAppUrl() . "/templates/2cols_0.66-0.33.htm"
+                "url"         => $this->appUrl() . "/templates/2cols_0.66-0.33.htm"
             ],
             [
                 "title"       => "2 Colonnes : 3/4, 1/4",
                 "description" => "1 colonne de 3/4 et l'autre d'1/4",
-                "url"         => self::tFyAppUrl() . "/templates/2cols_0.75-0.25.htm"
+                "url"         => $this->appUrl() . "/templates/2cols_0.75-0.25.htm"
             ],
             [
                 "title"       => "3 Colonnes : 1/4, 1/4, 1/2",
                 "description" => "1 colonne d'1/4, une d'1/4 et une d'1/2",
-                "url"         => self::tFyAppUrl() . "/templates/3cols_0.25-0.25-0.5.htm"
+                "url"         => $this->appUrl() . "/templates/3cols_0.25-0.25-0.5.htm"
             ],
             [
                 "title"       => "3 Colonnes : 1/4, 1/2, 1/4",
                 "description" => "1 colonne d'1/4, une d'1/2 et une d'1/4",
-                "url"         => self::tFyAppUrl() . "/templates/3cols_0.25-0.5-0.25.htm"
+                "url"         => $this->appUrl() . "/templates/3cols_0.25-0.5-0.25.htm"
             ],
             [
                 "title"       => "3 Colonnes : 1/3, 1/3, 1/3",
                 "description" => "1 colonne d'1/3, une d'1/3 et une d'1/3",
-                "url"         => self::tFyAppUrl() . "/templates/3cols_0.33-0.33-0.33.htm"
+                "url"         => $this->appUrl() . "/templates/3cols_0.33-0.33-0.33.htm"
             ],
             [
                 "title"       => "3 Colonnes : 1/2, 1/4, 1/4",
                 "description" => "1 colonne d'1/2, une d'1/4 et une d'1/4",
-                "url"         => self::tFyAppUrl() . "/templates/3cols_0.5-0.25-0.25.htm"
+                "url"         => $this->appUrl() . "/templates/3cols_0.5-0.25-0.25.htm"
             ],
             [
                 "title"       => "4 Colonnes : 1/4, 1/4, 1/4, 1/4",
                 "description" => "1 colonnes d'1/4, une d'1/4, une d'1/4 et une d'1/4",
-                "url"         => self::tFyAppUrl() . "/templates/4cols_0.25-0.25-0.25-0.25.htm"
+                "url"         => $this->appUrl() . "/templates/4cols_0.25-0.25-0.25-0.25.htm"
             ]
         ]);
         exit;
@@ -138,6 +134,8 @@ class Template extends AbstractPlugin
      */
     public function wp_enqueue_scripts()
     {
-        wp_enqueue_style('TinyMcePluginTemplate', $this->appUrl() . '/theme.css', [], 150317);
+        if ($this->getConfig('wp_enqueue_style') && $this->isActive()) :
+            wp_enqueue_style('TinyMcePluginTemplate', $this->appUrl() . '/theme.css', [], 150317);
+        endif;
     }
 }

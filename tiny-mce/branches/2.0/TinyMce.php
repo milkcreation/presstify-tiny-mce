@@ -31,7 +31,6 @@ final class TinyMce extends AppController
     protected $availablePlugins = [
         Dashicons::class,
         FontAwesome::class,
-        Genericons::class,
         Jumpline::class,
         OwnGlyphs::class,
         Table::class,
@@ -46,25 +45,29 @@ final class TinyMce extends AppController
     protected $registeredPlugins = [];
 
     /**
-     * CONSTRUCTEUR.
+     * Initialisation du controleur.
      *
      * @return void
      */
-    public function __construct()
+    public function appBoot()
     {
-        parent::__construct();
-
-        // Instanciation des plugins disponibles.
         foreach($this->availablePlugins as $plugin) :
-            new $plugin($this);
+            $this->appServiceShare($plugin, new $plugin($this));
         endforeach;
 
-        // Définition des plugins actifs
-        $this->setActivePlugins();
-
-        // Déclaration des événements de déclenchement
+        $this->appAddAction('init');
         $this->appAddFilter('tiny_mce_before_init');
         $this->appAddFilter('mce_external_plugins');
+    }
+
+    /**
+     * Initialisation globale de Wordpress.
+     *
+     * @return void
+     */
+    public function init()
+    {
+        $this->setActivePlugins();
     }
 
     /**
@@ -99,7 +102,6 @@ final class TinyMce extends AppController
 
         // Traitement des plugins externes
         foreach ($this->getActivePlugins() as $name => $attrs) :
-            // Ajout des boutons du plugin lorsque celui ci n'a pas été pré-déclaré dans la configuration précédente.
             if (! $this->hasPluginButton($name)) :
                 if (!empty($mceInit['toolbar3'])) :
                     $mceInit['toolbar3'] .= ' ' . $name;

@@ -27,6 +27,7 @@
   ],
   "require": {
     "composer/installers": "~1.0",
+    "fortawesome/font-awesome": "^4.7",
     "presstify/framework": "^2.0"
   },
   "autoload": {
