@@ -2,8 +2,9 @@
 
 namespace tiFy\Plugins\TinyMce\Plugins;
 
+use Illuminate\Support\Collection;
 use tiFy\Plugins\TinyMce\TinyMce;
-use tiFy\Lib\File;
+use tiFy\Kernel\Tools;
 
 abstract class AbstractPluginGlyph extends AbstractPlugin
 {
@@ -42,7 +43,7 @@ abstract class AbstractPluginGlyph extends AbstractPlugin
             'hookname'         => 'dashicons',
             'css'              => includes_url() . 'css/dashicons.css',
             'wp_enqueue_style' => true,
-            'version'          => '4.1',
+            'version'          => current_time('timestamp'),
             'dependencies'     => [],
             'prefix'           => 'dashicons-',
             'font-family'      => 'dashicons',
@@ -59,10 +60,6 @@ abstract class AbstractPluginGlyph extends AbstractPlugin
      */
     public function init()
     {
-        if (! $this->isActive()) :
-            return;
-        endif;
-
         parent::init();
 
         $this->appAddAction('admin_init');
@@ -81,22 +78,22 @@ abstract class AbstractPluginGlyph extends AbstractPlugin
             $this->getConfig('version')
         );
         \wp_register_style(
-            'tinymce-' . $this->name,
+            'tiFyPluginTinyMce-' . $this->appShortname(),
             $this->appUrl() . '/plugin.css',
             [],
             $this->getConfig('version')
         );
 
         // Traitement de la listes des glyphs dans la feuille de style de la police de caractères
-        $css = File::getContents($this->getConfig('css'));
-        preg_match_all(
-            '/.' . $this->getConfig('prefix') . '(.*):before\s*\{\s*content\:\s*"(.*)";\s*\}\s*/',
-            $css,
-            $matches
-        );
+        $css = Tools::File()->getContents($this->getConfig('css'));
+
+        preg_match_all("#." . $this->getConfig('prefix') . "(.*):before\s*\{\s*content\:\s*\"(.*)\";\s*\}\s*#", $css, $matches);
+
         if (isset($matches[1])) :
             foreach ($matches[1] as $i => $class) :
-                $this->glyphs[$class] = $matches[2][$i];
+                if(isset($matches[2][$i])) :
+                    $this->glyphs[$class] = $matches[2][$i];
+                endif;
             endforeach;
         endif;
     }
@@ -121,7 +118,7 @@ abstract class AbstractPluginGlyph extends AbstractPlugin
     public function admin_enqueue_scripts()
     {
         \wp_enqueue_style($this->getConfig('hookname'));
-        \wp_enqueue_style('tinymce-' . $this->name);
+        \wp_enqueue_style('tiFyPluginTinyMce-' . $this->appShortname());
     }
 
     /**
@@ -131,7 +128,7 @@ abstract class AbstractPluginGlyph extends AbstractPlugin
      */
     public function admin_head()
     {
-?><script type="text/javascript">/* <![CDATA[ */var dashiconsChars=<?php echo $this->parseGlyphs();?>,tinymceDashiconsl10n={'title':'<?php echo $this->getConfig('title'); ?>'};/* ]]> */</script><?php
+?><script type="text/javascript">/* <![CDATA[ */var dashiconsChars=<?php echo json_encode($this->parseGlyphs());?>,tinymceDashiconsl10n={'title':'<?php echo $this->getConfig('title'); ?>'};/* ]]> */</script><?php
     }
 
     /**
@@ -161,7 +158,7 @@ abstract class AbstractPluginGlyph extends AbstractPlugin
      */
     public function wp_enqueue_scripts()
     {
-        if ($this->getConfig('wp_enqueue_style')) :
+        if ($this->getConfig('wp_enqueue_style') && $this->isActive()) :
             wp_enqueue_style($this->getConfig('hookname'));
         endif;
     }
@@ -181,31 +178,14 @@ abstract class AbstractPluginGlyph extends AbstractPlugin
      */
     public function parseGlyphs()
     {
-        $return = "[";
-        $col = 0;
-        if ($this->glyphs) :
-            foreach ($this->glyphs as $class => $content) :
-                $return .= (!$col) ? "{" : "";
-                $return .= "'$class':'";
-                $return .= html_entity_decode(
-                    preg_replace(
-                        '/' . preg_quote('\\') . '/',
-                        '&#x',
-                        $content
-                    ),
-                    ENT_NOQUOTES,
-                    'UTF-8'
-                );
-                $return .= "',";
-                if (++$col >= $this->getConfig('cols')) :
-                    $col = 0;
-                    $return .= "},";
-                endif;
-            endforeach;
-            $return .= ($col) ? "}" : "";
-        endif;
-        $return .= "]";
+        $items = array_map(
+            function($value){
+                return preg_replace('#' . preg_quote('\\') . '#', '&#x', $value);
+            },
+            $this->glyphs
+        );
+        $collection = new Collection($items);
 
-        return $return;
+        return $collection->chunk($this->getConfig('cols'))->toArray();
     }
 }
