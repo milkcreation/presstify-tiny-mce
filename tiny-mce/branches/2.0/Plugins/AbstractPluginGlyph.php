@@ -5,6 +5,7 @@ namespace tiFy\Plugins\TinyMce\Plugins;
 use Illuminate\Support\Collection;
 use tiFy\Plugins\TinyMce\TinyMce;
 use tiFy\Kernel\Tools;
+use tiFy\Asset\Asset;
 
 abstract class AbstractPluginGlyph extends AbstractPlugin
 {
@@ -67,7 +68,6 @@ abstract class AbstractPluginGlyph extends AbstractPlugin
         $this->appAddAction('admin_head');
         $this->appAddAction('admin_print_styles');
         $this->appAddAction('wp_enqueue_scripts');
-        $this->appAddAction('wp_head');
         $this->appAddAction('wp_ajax_' . $this->name, [$this, 'wp_ajax']);
 
         // Déclaration des scripts.
@@ -161,16 +161,8 @@ abstract class AbstractPluginGlyph extends AbstractPlugin
         if ($this->getConfig('wp_enqueue_style') && $this->isActive()) :
             wp_enqueue_style($this->getConfig('hookname'));
         endif;
-    }
 
-    /**
-     * Personnalisation de l'entête de l'interface utilisateur.
-     *
-     * @return void
-     */
-    public function wp_head()
-    {
-        ?><style type="text/css">.dashicons{font-family:'<?php echo $this->getConfig('font-family'); ?>';}</style><?php
+        $this->appServiceGet(Asset::class)->addInlineCss(".{$this->name}{font-family:'{$this->getConfig('font-family')}';}");
     }
 
     /**
