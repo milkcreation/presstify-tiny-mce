@@ -37,8 +37,7 @@ abstract class AbstractPlugin
     {
         $this->tinyMce = $tinyMce;
 
-        // Déclaration du plugin
-        $url = $this->appUrl(get_called_class()) . '/plugin.js';
+        $url = $this->appUrl() . '/plugin.js';
         $this->tinyMce->registerPlugin($this->name, $url);
 
         $this->appAddAction('init', null, 0);
