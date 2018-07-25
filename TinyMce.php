@@ -6,7 +6,7 @@
  * @author Jordy Manner <jordy@milkcreation.fr>
  * @package presstiFy
  * @namespace \tiFy\Plugins\TinyMce
- * @version 2.0.0
+ * @version 2.0.1
  */
 
 namespace tiFy\Plugins\TinyMce;
