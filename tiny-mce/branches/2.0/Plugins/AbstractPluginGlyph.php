@@ -5,7 +5,6 @@ namespace tiFy\Plugins\TinyMce\Plugins;
 use Illuminate\Support\Collection;
 use tiFy\Plugins\TinyMce\TinyMce;
 use tiFy\Kernel\Tools;
-use tiFy\Asset\Asset;
 
 abstract class AbstractPluginGlyph extends AbstractPlugin
 {
@@ -162,7 +161,7 @@ abstract class AbstractPluginGlyph extends AbstractPlugin
             wp_enqueue_style($this->getConfig('hookname'));
         endif;
 
-        $this->appServiceGet(Asset::class)->addInlineCss(".{$this->name}{font-family:'{$this->getConfig('font-family')}';}");
+        $this->appAssets()->addInlineCss(".{$this->name}{font-family:'{$this->getConfig('font-family')}';}");
     }
 
     /**
