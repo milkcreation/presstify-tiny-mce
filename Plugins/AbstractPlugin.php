@@ -3,7 +3,7 @@
 namespace tiFy\Plugins\TinyMce\Plugins;
 
 use Illuminate\Support\Arr;
-use tiFy\Apps\AppTrait;
+use tiFy\App\AppTrait;
 use tiFy\Plugins\TinyMce\TinyMce;
 
 abstract class AbstractPlugin

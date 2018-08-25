@@ -6,13 +6,13 @@
  * @author Jordy Manner <jordy@milkcreation.fr>
  * @package presstiFy
  * @namespace \tiFy\Plugins\TinyMce
- * @version 2.0.1
+ * @version 2.0.2
  */
 
 namespace tiFy\Plugins\TinyMce;
 
 use Illuminate\Support\Arr;
-use tiFy\Apps\AppController;
+use tiFy\App\AppController;
 use tiFy\Plugins\TinyMce\Plugins\Dashicons\Dashicons;
 use tiFy\Plugins\TinyMce\Plugins\FontAwesome\FontAwesome;
 use tiFy\Plugins\TinyMce\Plugins\Genericons\Genericons;
