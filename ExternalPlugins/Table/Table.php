@@ -1,8 +1,8 @@
 <?php
 
-namespace tiFy\Plugins\TinyMce\Plugins\Table;
+namespace tiFy\Plugins\TinyMce\ExternalPlugins\Table;
 
-use tiFy\Plugins\TinyMce\Plugins\AbstractPlugin;
+use use tiFy\Plugins\TinyMce\ExternalPlugins\AbstractPlugin;
 
 class Table extends AbstractPlugin
 {
