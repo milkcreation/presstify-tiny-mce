@@ -1,40 +1,28 @@
 <?php
 
-namespace tiFy\Plugins\TinyMce\Plugins\JumpLine;
+namespace tiFy\Plugins\TinyMce\ExternalPlugins\JumpLine;
 
-use tiFy\Plugins\TinyMce\Plugins\AbstractPlugin;
+use tiFy\Plugins\TinyMce\ExternalPlugins\AbstractExternalPlugin;
 
-class JumpLine extends AbstractPlugin
+class JumpLine extends AbstractExternalPlugin
 {
     /**
-     * Nom de qualification du plugin.
-     * @var string
+     * {@inheritdoc}
      */
-    protected $name = 'jumpline';
-
-    /**
-     * Liste des options par défaut.
-     *
-     * @return array
-     */
-    public function defaultConfig()
+    public function boot()
     {
-        return [
-            'wp_enqueue_style' => true
-        ];
+        $this->app()->appAddAction('admin_init', [$this, 'admin_init']);
+        $this->app()->appAddAction('wp_enqueue_scripts', [$this, 'wp_enqueue_scripts']);
     }
 
     /**
-     * Initialisation globale.
-     *
-     * @return void
+     * {@inheritdoc}
      */
-    public function init()
+    public function defaults()
     {
-        parent::init();
-
-        $this->appAddAction('admin_init');
-        $this->appAddAction('wp_enqueue_scripts');
+        return [
+            'wp_enqueue_scripts' => true
+        ];
     }
 
     /**
@@ -45,9 +33,9 @@ class JumpLine extends AbstractPlugin
     public function admin_init()
     {
         if ((current_user_can('edit_posts') || current_user_can('edit_pages')) && get_user_option('rich_editing')) :
-            $this->appAddAction('admin_head');
-            $this->appAddAction('admin_print_styles');
-            $this->appAddFilter('mce_css');
+            $this->app()->appAddAction('admin_head', [$this, 'admin_head']);
+            $this->app()->appAddAction('admin_print_styles', [$this, 'admin_print_styles']);
+            $this->app()->appAddFilter('mce_css', [$this, 'mce_css']);
         endif;
     }
 
@@ -78,7 +66,7 @@ class JumpLine extends AbstractPlugin
      */
     public function mce_css($mce_css)
     {
-        return $mce_css .= ', ' . $this->appUrl() . '/editor.css';
+        return $mce_css .= ', ' . class_info($this)->getUrl() . '/editor.css';
     }
 
     /**
@@ -88,8 +76,8 @@ class JumpLine extends AbstractPlugin
      */
     public function wp_enqueue_scripts()
     {
-        if ($this->getConfig('wp_enqueue_style') && $this->isActive()) :
-            wp_enqueue_style('TinyMcePluginJumpLine', $this->appUrl() . '/theme.css', [], 160625);
+        if ($this->get('wp_enqueue_scripts') && $this->isActive()) :
+            wp_enqueue_style('TinyMceExternalPluginsJumpLine', class_info($this)->getUrl() . '/theme.css', [], 160625);
         endif;
     }
 }
