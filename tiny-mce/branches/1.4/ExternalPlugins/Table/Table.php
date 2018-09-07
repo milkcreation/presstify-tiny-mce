@@ -2,13 +2,9 @@
 
 namespace tiFy\Plugins\TinyMce\ExternalPlugins\Table;
 
-use use tiFy\Plugins\TinyMce\ExternalPlugins\AbstractPlugin;
+use tiFy\Plugins\TinyMce\ExternalPlugins\AbstractExternalPlugin;
 
-class Table extends AbstractPlugin
+class Table extends AbstractExternalPlugin
 {
-    /**
-     * Nom de qualification du plugin.
-     * @var string
-     */
-    protected $name = 'table';
+
 }

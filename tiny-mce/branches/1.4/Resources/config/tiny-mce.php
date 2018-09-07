@@ -177,6 +177,12 @@ return [
         ],
 
         /**
+         * Gestion des tableaux.
+         * @see https://www.tiny.cloud/docs/plugins/table/
+         */
+        'table',
+
+        /**
          * Gabarits d'affichage préformatés.
          * @see https://www.tiny.cloud/docs/plugins/template/
          */
