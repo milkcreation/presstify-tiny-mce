@@ -1,7 +1,7 @@
 /** Affichage en colonnes **/
-.tify-2cols,
-.tify-3cols,
-.tify-4cols {
+div.tify-2cols,
+div.tify-3cols,
+div.tify-4cols {
     margin-left: -15px;
     margin-right: -15px;
 }
