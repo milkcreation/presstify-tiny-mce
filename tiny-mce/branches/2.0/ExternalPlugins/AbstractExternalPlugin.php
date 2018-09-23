@@ -70,7 +70,7 @@ abstract class AbstractExternalPlugin extends AbstractParametersBag implements E
      */
     public function getUrl()
     {
-        return class_info($this)->getUrl() . '/plugin.js';
+        return $this->tinyMce()->getPluginUrl($this->getName());
     }
 
     /**

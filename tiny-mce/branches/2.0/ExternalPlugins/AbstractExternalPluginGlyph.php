@@ -124,7 +124,7 @@ abstract class AbstractExternalPluginGlyph extends AbstractExternalPlugin
         );
         wp_register_style(
             'tiFyTinyMceExternalPlugins' . class_info($this)->getShortName(),
-            class_info($this)->getUrl() . '/plugin.css',
+            $this->tinyMce()->getPluginAssetsUrl($this->getName()) . '/css/plugin.css',
             [],
             $this->get('version')
         );
@@ -151,7 +151,7 @@ abstract class AbstractExternalPluginGlyph extends AbstractExternalPlugin
             $mce_css .= ', ' . $this->get('css');
         endif;
 
-        return $mce_css .= ', ' . class_info($this)->getUrl() . '/editor.css';
+        return $mce_css .= ', ' . $this->tinyMce()->getPluginAssetsUrl($this->getName()) . '/css/editor.css';
     }
 
     /**

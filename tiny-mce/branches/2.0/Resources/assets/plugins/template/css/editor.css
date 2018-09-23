@@ -1,4 +1,3 @@
-/** Affichage en colonnes **/
 .tify-2cols,
 .tify-3cols,
 .tify-4cols,
@@ -38,7 +37,7 @@
 .tify-4cols > div {
     float: left;
     margin: 0;
-    padding: 0 15px;
+    padding: 0 5px;
 }
 
 .tify-2cols > div img,

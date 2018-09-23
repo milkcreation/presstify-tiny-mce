@@ -6,7 +6,7 @@
  * @author Jordy Manner <jordy@milkcreation.fr>
  * @package presstify-plugins/tiny-mce
  * @namespace \tiFy\Plugins\TinyMce
- * @version 2.0.3
+ * @version 2.0.4
  */
 
 namespace tiFy\Plugins\TinyMce;
@@ -156,6 +156,37 @@ final class TinyMce
         endforeach;
     }
 
+    /**
+     * Récupération de l'url vers le scripts d'un plugin.
+     *
+     * @param string $name Nom de qualification du plugin.
+     *
+     * @return string
+     */
+    public function getPluginUrl($name)
+    {
+        $cinfo = class_info($this);
+
+        return (file_exists($cinfo->getDirname() . "/Resources/assets/plugins/{$name}/plugin.js"))
+            ? $cinfo->getUrl() . "/Resources/assets/plugins/{$name}/plugin.js"
+            : '';
+    }
+
+    /**
+     * Récupération de l'url vers les assets d'un plugin.
+     *
+     * @param string $name Nom de qualification du plugin.
+     *
+     * @return string
+     */
+    public function getPluginAssetsUrl($name)
+    {
+        $cinfo = class_info($this);
+
+        return (is_dir($cinfo->getDirname() . "/Resources/assets/plugins/{$name}"))
+            ? $cinfo->getUrl() . "/Resources/assets/plugins/{$name}"
+            : '';
+    }
 
     /**
      * Définition des attributs de configuration additionnels.

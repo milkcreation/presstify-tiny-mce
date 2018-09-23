@@ -60,7 +60,7 @@ class JumpLine extends AbstractExternalPlugin
      */
     public function mce_css($mce_css)
     {
-        return $mce_css .= ', ' . class_info($this)->getUrl() . '/editor.css';
+        return $mce_css .= ', ' . $this->tinyMce()->getPluginAssetsUrl($this->getName()) . '/css/editor.css';
     }
 
     /**
@@ -71,7 +71,7 @@ class JumpLine extends AbstractExternalPlugin
     public function wp_enqueue_scripts()
     {
         if ($this->get('wp_enqueue_scripts') && $this->isActive()) :
-            wp_enqueue_style('TinyMceExternalPluginsJumpLine', class_info($this)->getUrl() . '/theme.css', [], 160625);
+            wp_enqueue_style('TinyMceExternalPluginsJumpLine', $this->tinyMce()->getPluginAssetsUrl($this->getName()) . '/css/styles.css', [], 160625);
         endif;
     }
 }
