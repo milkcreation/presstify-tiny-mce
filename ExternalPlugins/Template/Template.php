@@ -42,7 +42,7 @@ class Template extends AbstractExternalPlugin
      */
     public function mce_css($mce_css)
     {
-        return $mce_css .= ', ' . class_info($this)->getUrl() . '/editor.css';
+        return $mce_css .= ', ' . $this->tinyMce()->getPluginAssetsUrl($this->getName()) . '/css/editor.css';
     }
 
     /**
@@ -125,7 +125,7 @@ class Template extends AbstractExternalPlugin
     public function wp_enqueue_scripts()
     {
         if ($this->get('wp_enqueue_scripts') && $this->isActive()) :
-            wp_enqueue_style('TinyMceExternalPluginsTemplate', class_info($this)->getUrl() . '/theme.css', [], 150317);
+            wp_enqueue_style('TinyMceExternalPluginsTemplate', $this->tinyMce()->getPluginAssetsUrl($this->getName()) . '/css/styles.css', [], 150317);
         endif;
     }
 }

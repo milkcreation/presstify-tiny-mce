@@ -1,24 +1,34 @@
-/** Affichage en colonnes **/
+.tify-2cols,
+.tify-3cols,
+.tify-4cols,
+.tify-2cols > div,
+.tify-3cols > div,
+.tify-4cols > div {
+    -webkit-box-sizing: border-box !important;
+    -moz-box-sizing: border-box !important;
+    box-sizing: border-box !important;
+}
+
 div.tify-2cols,
 div.tify-3cols,
 div.tify-4cols {
-    margin-left: -15px;
-    margin-right: -15px;
+    margin-left: -10px !important;
+    margin-right: -10px !important;
 }
 
-.tify-2cols:before,
-.tify-2cols:after,
-.tify-3cols:before,
-.tify-3cols:after,
-.tify-4cols:before,
-.tify-4cols:after {
+.tify-2cols::before,
+.tify-2cols::after,
+.tify-3cols::before,
+.tify-3cols::after,
+.tify-4cols::before,
+.tify-4cols::after {
     display: table;
     content: "";
 }
 
-.tify-2cols:after,
-.tify-3cols:after,
-.tify-4cols:after {
+.tify-2cols::after,
+.tify-3cols::after,
+.tify-4cols::after {
     clear: both;
 }
 
@@ -27,7 +37,7 @@ div.tify-4cols {
 .tify-4cols > div {
     float: left;
     margin: 0;
-    padding: 0 15px;
+    padding: 0 10px;
 }
 
 .tify-2cols > div img,

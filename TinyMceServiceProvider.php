@@ -38,6 +38,7 @@ class TinyMceServiceProvider extends AppServiceProvider
         add_action(
             'init',
             function () {
+                /** @var TinyMce $tinyMce */
                 $tinyMce = $this->app->resolve(TinyMce::class);
                 $externalPlugins = config('tiny-mce.plugins', []);
 

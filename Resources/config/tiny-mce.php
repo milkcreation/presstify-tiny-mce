@@ -132,11 +132,12 @@ return [
 
         /**
          * Activation du saut de ligne automatique.
+         * {@internal Chargement avec webpack : "import 'presstify-plugins/tiny-mce/Resources/assets/jumpline';"}
          */
         'jumpline',
 
         /**
-         * Intégration d'une police de glyphs personnelle.
+         * Intégration d'une police de glyphs personnelle.des scripts
          * @see http://fontastic.me/
          * @see http://fontello.com/
          * @see https://icomoon.io/app/#/select
@@ -162,6 +163,7 @@ return [
         /**
          * Gabarits d'affichage préformatés.
          * @see https://www.tiny.cloud/docs/plugins/template/
+         * {@internal Chargement avec webpack : "import 'presstify-plugins/tiny-mce/Resources/assets/template';"}
          */
         'template',
 

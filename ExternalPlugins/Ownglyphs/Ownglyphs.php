@@ -53,7 +53,7 @@ class Ownglyphs extends AbstractExternalPluginGlyph
             $mce_css .= ', ' . $this->get('css');
         endif;
 
-        return $mce_css .= ', ' . class_info($this)->getUrl() . '/editor.css, ' .
+        return $mce_css .= ', ' . $this->tinyMce()->getPluginAssetsUrl($this->getName()) . '/css/editor.css, ' .
             admin_url(
                 'admin-ajax.php?action=tify_tinymce_external_plugins_ownglyphs&bogus=' . current_time('timestamp')
             );
