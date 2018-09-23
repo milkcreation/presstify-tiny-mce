@@ -85,7 +85,7 @@ final class TinyMce
             'tiny_mce_before_init',
             function($mceInit)
             {
-                foreach (config('tiny-mce.init') as $key => $value) :
+                foreach (config('tiny-mce.init', []) as $key => $value) :
                     switch ($key) :
                         default :
                             $mceInit[$key] = is_array($value) ? json_encode($value) : (string)$value;
