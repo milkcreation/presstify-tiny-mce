@@ -2,12 +2,11 @@
 
 namespace tiFy\Plugins\TinyMce\ExternalPlugins;
 
-use Illuminate\Support\Arr;
-use tiFy\Kernel\Parameters\AbstractParametersBag;
+use tiFy\Kernel\Params\ParamsBag;
 use tiFy\Plugins\TinyMce\Contracts\ExternalPluginInterface;
 use tiFy\Plugins\TinyMce\TinyMce;
 
-abstract class AbstractExternalPlugin extends AbstractParametersBag implements ExternalPluginInterface
+abstract class AbstractExternalPlugin extends ParamsBag implements ExternalPluginInterface
 {
     /**
      * Nom de qualification du plugin.

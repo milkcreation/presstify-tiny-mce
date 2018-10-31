@@ -2,10 +2,10 @@
 
 namespace tiFy\Plugins\TinyMce\Contracts;
 
-use tiFy\Contracts\Kernel\ParametersBagInterface;
+use tiFy\Contracts\Kernel\ParamsBag;
 use tiFy\Plugins\TinyMce\TinyMce;
 
-interface ExternalPluginInterface extends ParametersBagInterface
+interface ExternalPluginInterface extends ParamsBag
 {
     /**
      * Initialisation du controleur de plugin
