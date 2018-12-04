@@ -97,22 +97,22 @@ return [
             ],
             [
                 'title'    => __('Etiquette 1', 'tify'),
-                'selector' => 'a',
+                'selector' => 'p, span',
                 'classes'  => 'Label--1'
             ],
             [
                 'title'    => __('Etiquette 1 inversée', 'tify'),
-                'selector' => 'a',
+                'selector' => 'p, span',
                 'classes'  => 'Label--1 Label--inverted'
             ],
             [
                 'title'    => __('Etiquette 2', 'tify'),
-                'selector' => 'a',
+                'selector' => 'p, span',
                 'classes'  => 'Label--2'
             ],
             [
                 'title'    => __('Etiquette 2 inversée', 'tify'),
-                'selector' => 'a',
+                'selector' => 'p, span',
                 'classes'  => 'Label--2 Label--inverted'
             ]
         ]
