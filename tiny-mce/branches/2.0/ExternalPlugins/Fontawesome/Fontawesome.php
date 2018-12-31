@@ -13,7 +13,7 @@ class Fontawesome extends AbstractExternalPluginGlyph
     {
         return [
             'hookname'               => 'font-awesome',
-            'css'                    => home_url('/vendor/fortawesome/font-awesome/css/font-awesome.css'),
+            'css'                    => url()->root('/vendor/fortawesome/font-awesome/css/font-awesome.css'),
             'admin_enqueue_scripts'  => true,
             'editor_enqueue_scripts' => true,
             'wp_enqueue_scripts'     => true,
