@@ -6,12 +6,11 @@
  * @author Jordy Manner <jordy@milkcreation.fr>
  * @package presstify-plugins/tiny-mce
  * @namespace \tiFy\Plugins\TinyMce
- * @version 2.0.6
+ * @version 2.0.7
  */
 
 namespace tiFy\Plugins\TinyMce;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use tiFy\Plugins\TinyMce\Contracts\ExternalPluginInterface;
 
