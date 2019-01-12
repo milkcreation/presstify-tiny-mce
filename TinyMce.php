@@ -1,28 +1,22 @@
 <?php
 
-/**
- * @name TinyMce
- * @desc Extension PresstiFy de gestion l'interface d'administration de Wordpress.
- * @author Jordy Manner <jordy@milkcreation.fr>
- * @package presstify-plugins/tiny-mce
- * @namespace \tiFy\Plugins\TinyMce
- * @version 2.0.6
- */
-
 namespace tiFy\Plugins\TinyMce;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use tiFy\Plugins\TinyMce\Contracts\ExternalPluginInterface;
 
 /**
  * Class TinyMce
- * @package tiFy\Plugins\TinyMce
  *
- * Activation :
- * ----------------------------------------------------------------------------------------------------
- * Dans config/app.php ajouter \tiFy\Plugins\TinyMce\TinyMceServiceProvider à la liste des fournisseurs de services
- *     chargés automatiquement par l'application.
+ * @desc Extension PresstiFy de gestion de l'éditeur Wysiwyg TinyMCE.
+ * @author Jordy Manner <jordy@milkcreation.fr>
+ * @package tiFy\Plugins\TinyMce
+ * @version 2.0.8
+ *
+ * USAGE :
+ * Activation
+ * ---------------------------------------------------------------------------------------------------------------------
+ * Dans config/app.php ajouter \tiFy\Plugins\TinyMce\TinyMceServiceProvider à la liste des fournisseurs de services.
  * ex.
  * <?php
  * ...
@@ -38,10 +32,10 @@ use tiFy\Plugins\TinyMce\Contracts\ExternalPluginInterface;
  *      ]
  * ];
  *
- * Configuration :
- * ----------------------------------------------------------------------------------------------------
- * Dans le dossier de config, créer le fichier social.php
- * @see /vendor/presstify-plugins/tiny-mce/Resources/config/tiny-mce.php Exemple de configuration
+ * Configuration
+ * ---------------------------------------------------------------------------------------------------------------------
+ * Dans le dossier de config, créer le fichier tiny-mce.php
+ * @see /vendor/presstify-plugins/tiny-mce/Resources/config/tiny-mce.php
  */
 final class TinyMce
 {
@@ -123,6 +117,8 @@ final class TinyMce
 
     /**
      * Récupération du nom de la classe d'un plugin.
+     *
+     * @param string $alias
      *
      * @return string
      */
