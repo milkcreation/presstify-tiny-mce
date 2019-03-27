@@ -7,7 +7,7 @@ use tiFy\Plugins\TinyMce\ExternalPlugins\AbstractExternalPlugin;
 class Template extends AbstractExternalPlugin
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function boot()
     {
@@ -17,20 +17,17 @@ class Template extends AbstractExternalPlugin
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function defaults()
     {
         return [
             'wp_enqueue_scripts' => true,
             'mce_init'         => [
-                'templates' => \add_query_arg(
-                    [
-                        'action' => 'tinymce_plugin_template',
-                        'nonce'  => \wp_create_nonce('TinyMcePluginTemplate')
-                    ],
-                    admin_url('admin-ajax.php')
-                )
+                'templates' => add_query_arg([
+                    'action' => 'tinymce_plugin_template',
+                    'nonce'  => \wp_create_nonce('TinyMcePluginTemplate')
+                ], admin_url('admin-ajax.php'))
             ]
         ];
     }
@@ -38,11 +35,13 @@ class Template extends AbstractExternalPlugin
     /**
      * Ajout de styles dans l'éditeur tinyMCE.
      *
+     * @param string $mce_css Liste des url vers les feuilles de styles associées à tinyMCE.
+     *
      * @return string
      */
     public function mce_css($mce_css)
     {
-        return $mce_css .= ', ' . $this->tinyMce()->getPluginAssetsUrl($this->getName()) . '/css/editor.css';
+        return $mce_css . ', ' . $this->tinyMce()->getPluginAssetsUrl($this->getName()) . '/css/editor.css';
     }
 
     /**
@@ -125,7 +124,12 @@ class Template extends AbstractExternalPlugin
     public function wp_enqueue_scripts()
     {
         if ($this->get('wp_enqueue_scripts') && $this->isActive()) :
-            wp_enqueue_style('TinyMceExternalPluginsTemplate', $this->tinyMce()->getPluginAssetsUrl($this->getName()) . '/css/styles.css', [], 150317);
+            wp_enqueue_style(
+                'TinyMceExternalPluginsTemplate',
+                $this->tinyMce()->getPluginAssetsUrl($this->getName()) . '/css/styles.css',
+                [],
+                150317
+            );
         endif;
     }
 }
