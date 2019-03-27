@@ -7,7 +7,7 @@ use tiFy\Plugins\TinyMce\ExternalPlugins\AbstractExternalPluginGlyph;
 class Ownglyphs extends AbstractExternalPluginGlyph
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function boot()
     {
@@ -30,7 +30,7 @@ class Ownglyphs extends AbstractExternalPluginGlyph
         wp_enqueue_style('tiFyTinyMceExternalPlugins' . class_info($this)->getShortName());
 
         assets()->addInlineJs(
-            "var glyphs=" . wp_json_encode($this->parseGlyphs()) . "," .
+            "let glyphs=" . wp_json_encode($this->parseGlyphs()) . "," .
             "tinymceOwnGlyphsl10n={'title':'{$this->get('title')}'};",
             'admin'
         );
@@ -45,6 +45,8 @@ class Ownglyphs extends AbstractExternalPluginGlyph
     /**
      * Ajout de styles dans l'éditeur tinyMCE.
      *
+     * @param string $mce_css Liste des url vers les feuilles de styles associées à tinyMCE.
+     *
      * @return string
      */
     public function mce_css($mce_css)
@@ -53,7 +55,7 @@ class Ownglyphs extends AbstractExternalPluginGlyph
             $mce_css .= ', ' . $this->get('css');
         endif;
 
-        return $mce_css .= ', ' . $this->tinyMce()->getPluginAssetsUrl($this->getName()) . '/css/editor.css, ' .
+        return $mce_css . ', ' . $this->tinyMce()->getPluginAssetsUrl($this->getName()) . '/css/editor.css, ' .
             admin_url(
                 'admin-ajax.php?action=tify_tinymce_external_plugins_ownglyphs&bogus=' . current_time('timestamp')
             );
