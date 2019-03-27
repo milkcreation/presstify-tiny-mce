@@ -2,7 +2,7 @@
 
 namespace tiFy\Plugins\TinyMce\Contracts;
 
-use tiFy\Contracts\Kernel\ParamsBag;
+use tiFy\Contracts\Support\ParamsBag;
 use tiFy\Plugins\TinyMce\TinyMce;
 
 interface ExternalPluginInterface extends ParamsBag
