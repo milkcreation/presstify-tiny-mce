@@ -11,7 +11,7 @@ use tiFy\Plugins\TinyMce\Contracts\ExternalPluginInterface;
  * @desc Extension PresstiFy de gestion de l'éditeur Wysiwyg TinyMCE.
  * @author Jordy Manner <jordy@milkcreation.fr>
  * @package tiFy\Plugins\TinyMce
- * @version 2.0.9
+ * @version 2.0.10
  *
  * USAGE :
  * Activation

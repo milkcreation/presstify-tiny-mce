@@ -2,7 +2,7 @@
 
 namespace tiFy\Plugins\TinyMce;
 
-use tiFy\App\Container\AppServiceProvider;
+use tiFy\Container\ServiceProvider;
 use tiFy\Plugins\TinyMce\ExternalPlugins\Dashicons\Dashicons;
 use tiFy\Plugins\TinyMce\ExternalPlugins\Fontawesome\Fontawesome;
 use tiFy\Plugins\TinyMce\ExternalPlugins\JumpLine\JumpLine;
@@ -11,7 +11,7 @@ use tiFy\Plugins\TinyMce\ExternalPlugins\Table\Table;
 use tiFy\Plugins\TinyMce\ExternalPlugins\Template\Template;
 use tiFy\Plugins\TinyMce\ExternalPlugins\Visualblocks\Visualblocks;
 
-class TinyMceServiceProvider extends AppServiceProvider
+class TinyMceServiceProvider extends ServiceProvider
 {
     /**
      * Liste des noms de qualification des services fournis.
