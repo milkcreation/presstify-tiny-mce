@@ -7,13 +7,13 @@ use tiFy\Plugins\TinyMce\ExternalPlugins\AbstractExternalPluginGlyph;
 class Fontawesome extends AbstractExternalPluginGlyph
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function defaults()
     {
-        return [
+        return array_merge(parent::defaults(), [
             'hookname'               => 'font-awesome',
-            'css'                    => home_url('/vendor/fortawesome/font-awesome/css/font-awesome.css'),
+            'css'                    => url()->root('/vendor/fortawesome/font-awesome/css/font-awesome.css'),
             'admin_enqueue_scripts'  => true,
             'editor_enqueue_scripts' => true,
             'wp_enqueue_scripts'     => true,
@@ -23,7 +23,7 @@ class Fontawesome extends AbstractExternalPluginGlyph
             'button'                 => 'flag',
             'title'                  => __('Police de caractères fontAwesome', 'tify'),
             'cols'                   => 32,
-        ];
+        ]);
     }
 
     /**
@@ -40,7 +40,7 @@ class Fontawesome extends AbstractExternalPluginGlyph
         wp_enqueue_style('tiFyTinyMceExternalPlugins' . class_info($this)->getShortName());
 
         assets()->addInlineJs(
-            "var fontAwesomeChars=" . wp_json_encode($this->parseGlyphs()) .
+            "let fontAwesomeChars=" . wp_json_encode($this->parseGlyphs()) .
             ",tinymceFontAwesomel10n={'title':'{$this->get('title')}'};",
             'admin'
         );
