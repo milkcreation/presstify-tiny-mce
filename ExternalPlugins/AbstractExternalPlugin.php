@@ -2,7 +2,7 @@
 
 namespace tiFy\Plugins\TinyMce\ExternalPlugins;
 
-use tiFy\Kernel\Params\ParamsBag;
+use tiFy\Support\ParamsBag;
 use tiFy\Plugins\TinyMce\Contracts\ExternalPluginInterface;
 use tiFy\Plugins\TinyMce\TinyMce;
 
@@ -34,22 +34,15 @@ abstract class AbstractExternalPlugin extends ParamsBag implements ExternalPlugi
         $this->name = $name;
         $this->tinyMce = $tinyMce;
 
-        parent::__construct($attrs);
+        $this->set($attrs)->parse();
 
         $this->tinyMce()->setExternalPlugin($this);
-
-        add_action(
-            'after_setup_theme',
-            function () use ($attrs) {
-                $this->parse($attrs);
-            }
-        );
 
         $this->boot();
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function boot()
     {
@@ -57,7 +50,7 @@ abstract class AbstractExternalPlugin extends ParamsBag implements ExternalPlugi
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getName()
     {
@@ -65,7 +58,7 @@ abstract class AbstractExternalPlugin extends ParamsBag implements ExternalPlugi
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getUrl()
     {
@@ -73,7 +66,7 @@ abstract class AbstractExternalPlugin extends ParamsBag implements ExternalPlugi
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function isActive()
     {
@@ -81,11 +74,11 @@ abstract class AbstractExternalPlugin extends ParamsBag implements ExternalPlugi
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    public function parse($attrs = [])
+    public function parse()
     {
-        parent::parse($attrs);
+        parent::parse();
 
         if ($mce_init = $this->get('mce_init', [])) :
             $this->tinyMce()->setAdditionnalConfig($mce_init);
@@ -93,7 +86,7 @@ abstract class AbstractExternalPlugin extends ParamsBag implements ExternalPlugi
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function tinyMce()
     {
