@@ -39,16 +39,15 @@ class Fontawesome extends AbstractExternalPluginGlyph
 
         wp_enqueue_style('tiFyTinyMceExternalPlugins' . class_info($this)->getShortName());
 
-        assets()->addInlineJs(
+        asset()->setInlineJs(
             "let fontAwesomeChars=" . wp_json_encode($this->parseGlyphs()) .
             ",tinymceFontAwesomel10n={'title':'{$this->get('title')}'};",
-            'admin'
+            true
         );
 
-        assets()->addInlineCss(
+        asset()->setInlineCss(
             "i.mce-i-fontawesome:before{content:'{$this->glyphs[$this->get('button')]}';}" .
-            "i.mce-i-fontawesome:before,.mce-grid a.fontawesome{font-family:'{$this->get('font-family')}'!important;}",
-            'admin'
+            "i.mce-i-fontawesome:before,.mce-grid a.fontawesome{font-family:'{$this->get('font-family')}'!important;}"
         );
     }
 
@@ -59,6 +58,6 @@ class Fontawesome extends AbstractExternalPluginGlyph
      */
     public function wp_head()
     {
-        assets()->addInlineCss(".fontawesome{font-family:'{$this->get('font-family')}';}");
+        asset()->setInlineCss(".fontawesome{font-family:'{$this->get('font-family')}';}");
     }
 }

@@ -29,16 +29,15 @@ class Ownglyphs extends AbstractExternalPluginGlyph
 
         wp_enqueue_style('tiFyTinyMceExternalPlugins' . class_info($this)->getShortName());
 
-        assets()->addInlineJs(
+        asset()->setInlineJs(
             "let glyphs=" . wp_json_encode($this->parseGlyphs()) . "," .
             "tinymceOwnGlyphsl10n={'title':'{$this->get('title')}'};",
-            'admin'
+            true
         );
 
-        assets()->addInlineCss(
+        asset()->setInlineCss(
             "i.mce-i-ownglyphs::before{content:'{$this->glyphs[$this->get('button')]}';}" .
-            "i.mce-i-ownglyphs::before,.mce-grid a.ownglyphs{font-family:'{$this->get('font-family')}'!important;}",
-            'admin'
+            "i.mce-i-ownglyphs::before,.mce-grid a.ownglyphs{font-family:'{$this->get('font-family')}'!important;}"
         );
     }
 
