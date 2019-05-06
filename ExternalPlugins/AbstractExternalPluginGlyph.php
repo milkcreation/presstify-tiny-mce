@@ -89,17 +89,16 @@ abstract class AbstractExternalPluginGlyph extends AbstractExternalPlugin
 
         wp_enqueue_style('tiFyTinyMceExternalPlugins' . class_info($this)->getShortName());
 
-        assets()->addInlineJs(
-            "var dashiconsChars=" . json_encode($this->parseGlyphs()) .
+        asset()->setInlineJs(
+            "let dashiconsChars=" . json_encode($this->parseGlyphs()) .
             ",tinymceDashiconsl10n={'title':'{$this->get('title')}'};",
-            'admin'
+            true
         );
 
-        assets()->addInlineCss(
+        asset()->setInlineCss(
             "i.mce-i-dashicons:before{" .
             "content:'" . ($this->glyphs[$this->get('button')] ? $this->glyphs[$this->get('button')] : '') . "';}".
-            "i.mce-i-dashicons:before,.mce-grid a.dashicons{font-family:'{$this->get('font-family')}'!important;}",
-            'admin'
+            "i.mce-i-dashicons:before,.mce-grid a.dashicons{font-family:'{$this->get('font-family')}'!important;}"
         );
     }
 
@@ -182,6 +181,6 @@ abstract class AbstractExternalPluginGlyph extends AbstractExternalPlugin
             wp_enqueue_style($this->get('hookname'));
         endif;
 
-        assets()->addInlineCss(".{$this->name}{font-family:'{$this->get('font-family')}';}");
+        asset()->setInlineCss(".{$this->name}{font-family:'{$this->get('font-family')}';}");
     }
 }

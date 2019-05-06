@@ -45,12 +45,9 @@ class JumpLine extends AbstractExternalPlugin
      */
     public function admin_enqueue_scripts()
     {
-        assets()->addInlineJs(
-            "let tiFyTinyMCEJumpLinel10n={'title':'" . __('Saut de ligne', 'tify') . "'};",
-            'admin'
-        );
+        asset()->setInlineJs("let tiFyTinyMCEJumpLinel10n={'title':'" . __('Saut de ligne', 'tify') . "'};", true);
 
-        assets()->addInlineCss("i.mce-i-jumpline::before{content:'\\f474';font-family:'dashicons';}", 'admin');
+        asset()->setInlineCss("i.mce-i-jumpline::before{content:'\\f474';font-family:'dashicons';}");
     }
 
     /**
