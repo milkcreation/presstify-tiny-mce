@@ -42,7 +42,7 @@ abstract class AbstractExternalPlugin extends ParamsBag implements ExternalPlugi
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function boot()
     {
@@ -50,7 +50,7 @@ abstract class AbstractExternalPlugin extends ParamsBag implements ExternalPlugi
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function getName()
     {
@@ -58,7 +58,7 @@ abstract class AbstractExternalPlugin extends ParamsBag implements ExternalPlugi
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function getUrl()
     {
@@ -66,7 +66,7 @@ abstract class AbstractExternalPlugin extends ParamsBag implements ExternalPlugi
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function isActive()
     {
@@ -74,19 +74,19 @@ abstract class AbstractExternalPlugin extends ParamsBag implements ExternalPlugi
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function parse()
     {
         parent::parse();
 
-        if ($mce_init = $this->get('mce_init', [])) :
+        if ($mce_init = $this->get('mce_init', [])) {
             $this->tinyMce()->setAdditionnalConfig($mce_init);
-        endif;
+        }
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function tinyMce()
     {

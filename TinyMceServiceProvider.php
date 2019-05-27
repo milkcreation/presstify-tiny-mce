@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace tiFy\Plugins\TinyMce;
 
@@ -30,9 +30,9 @@ class TinyMceServiceProvider extends ServiceProvider
     ];
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
-    public function boot()
+    public function boot(): void
     {
         add_action('after_setup_theme', function () {
             $this->getContainer()->get('tiny-mce');
@@ -40,9 +40,9 @@ class TinyMceServiceProvider extends ServiceProvider
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
-    public function register()
+    public function register(): void
     {
         $this->getContainer()->add('tiny-mce', function () {
             return new TinyMce($this->getContainer());
@@ -56,7 +56,7 @@ class TinyMceServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function registerPlugins()
+    public function registerPlugins(): void
     {
         $this->getContainer()->add('tiny-mce.plugins.dashicons', function ($name, $attrs) {
             return new Dashicons('dashicons', $attrs, $this->getContainer()->get('tiny-mce'));

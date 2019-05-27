@@ -14,7 +14,7 @@ abstract class AbstractExternalPluginGlyph extends AbstractExternalPlugin
     protected $glyphs = [];
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function boot()
     {
@@ -28,7 +28,7 @@ abstract class AbstractExternalPluginGlyph extends AbstractExternalPlugin
      * Liste des attributs de configuration.
      * @return array {
      *      @var string $hookname Nom d'accroche pour la mise en file de la police de caractères.
-     *      @var string $css Url vers la police CSS. La police doit être non minifiée.
+     *      @var string $path Chemin vers le fichier CSS de la police de caractère. Doit être non minifiée.
      *      @var bool $editor_enqueue_style Activation de la mise en file automatique de la feuille de style de la
      *                                      police de caractères dans l'éditeur.
      *      @var bool $admin_enqueue_style Activation de la mise en file automatique de la feuille de style de la
@@ -50,7 +50,7 @@ abstract class AbstractExternalPluginGlyph extends AbstractExternalPlugin
     {
         return [
             'hookname'               => 'dashicons',
-            'css'                    => includes_url() . 'css/dashicons.css',
+            'path'                   => '/' . WPINC . '/css/dashicons.css',
             'admin_enqueue_scripts'  => true,
             'editor_enqueue_scripts' => true,
             'wp_enqueue_scripts'     => true,
@@ -71,9 +71,9 @@ abstract class AbstractExternalPluginGlyph extends AbstractExternalPlugin
      */
     public function admin_init()
     {
-        if ((current_user_can('edit_posts') || current_user_can('edit_pages')) && get_user_option('rich_editing')) :
+        if ((current_user_can('edit_posts') || current_user_can('edit_pages')) && get_user_option('rich_editing')) {
             add_filter('mce_css', [$this, 'mce_css']);
-        endif;
+        }
     }
 
     /**
@@ -83,9 +83,9 @@ abstract class AbstractExternalPluginGlyph extends AbstractExternalPlugin
      */
     public function admin_enqueue_scripts()
     {
-        if ($this->get('admin_enqueue_scripts')) :
+        if ($this->get('admin_enqueue_scripts')) {
             wp_enqueue_style($this->get('hookname'));
-        endif;
+        }
 
         wp_enqueue_style('tiFyTinyMceExternalPlugins' . class_info($this)->getShortName());
 
@@ -97,7 +97,7 @@ abstract class AbstractExternalPluginGlyph extends AbstractExternalPlugin
 
         asset()->setInlineCss(
             "i.mce-i-dashicons:before{" .
-            "content:'" . ($this->glyphs[$this->get('button')] ? $this->glyphs[$this->get('button')] : '') . "';}".
+            "content:'" . ($this->glyphs[$this->get('button')] ? $this->glyphs[$this->get('button')] : '') . "';}" .
             "i.mce-i-dashicons:before,.mce-grid a.dashicons{font-family:'{$this->get('font-family')}'!important;}"
         );
     }
@@ -111,7 +111,7 @@ abstract class AbstractExternalPluginGlyph extends AbstractExternalPlugin
     {
         wp_register_style(
             $this->get('hookname'),
-            $this->get('css'),
+            url()->root($this->get('path')),
             $this->get('dependencies'),
             $this->get('version')
         );
@@ -122,19 +122,19 @@ abstract class AbstractExternalPluginGlyph extends AbstractExternalPlugin
             $this->get('version')
         );
 
-        $css = Tools::File()->getContents($this->get('css'));
+        $css = Tools::File()->getContents($this->get('path'));
         preg_match_all(
             "#." . $this->get('prefix') . "(.*):before\s*\{\s*content\:\s*\"(.*)\";\s*\}\s*#",
             $css,
             $matches
         );
-        if (isset($matches[1])) :
-            foreach ($matches[1] as $i => $class) :
-                if(isset($matches[2][$i])) :
+        if (isset($matches[1])) {
+            foreach ($matches[1] as $i => $class) {
+                if (isset($matches[2][$i])) {
                     $this->glyphs[$class] = $matches[2][$i];
-                endif;
-            endforeach;
-        endif;
+                }
+            }
+        }
     }
 
     /**
@@ -146,9 +146,9 @@ abstract class AbstractExternalPluginGlyph extends AbstractExternalPlugin
      */
     public function mce_css($mce_css)
     {
-        if ($this->get('editor_enqueue_scripts')) :
-            $mce_css .= ', ' . $this->get('css');
-        endif;
+        if ($this->get('editor_enqueue_scripts')) {
+            $mce_css .= ', ' . url()->root($this->get('path'));
+        }
 
         return $mce_css . ', ' . $this->tinyMce()->getPluginAssetsUrl($this->getName()) . '/css/editor.css';
     }
@@ -160,9 +160,9 @@ abstract class AbstractExternalPluginGlyph extends AbstractExternalPlugin
      */
     public function parseGlyphs()
     {
-        $items = array_map(function($value){
-                return preg_replace('#' . preg_quote('\\') . '#', '&#x', $value);
-            },
+        $items      = array_map(function ($value) {
+            return preg_replace('#' . preg_quote('\\') . '#', '&#x', $value);
+        },
             $this->glyphs
         );
         $collection = new Collection($items);
@@ -177,9 +177,9 @@ abstract class AbstractExternalPluginGlyph extends AbstractExternalPlugin
      */
     public function wp_enqueue_scripts()
     {
-        if ($this->get('wp_enqueue_scripts') && $this->isActive()) :
+        if ($this->get('wp_enqueue_scripts') && $this->isActive()) {
             wp_enqueue_style($this->get('hookname'));
-        endif;
+        }
 
         asset()->setInlineCss(".{$this->name}{font-family:'{$this->get('font-family')}';}");
     }
