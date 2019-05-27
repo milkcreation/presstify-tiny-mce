@@ -11,7 +11,7 @@ use tiFy\Plugins\TinyMce\Contracts\ExternalPluginInterface;
  * @desc Extension PresstiFy de gestion de l'éditeur Wysiwyg TinyMCE.
  * @author Jordy Manner <jordy@milkcreation.fr>
  * @package tiFy\Plugins\TinyMce
- * @version 2.0.11
+ * @version 2.0.12
  *
  * USAGE :
  * Activation
@@ -80,6 +80,7 @@ final class TinyMce
 
         add_action('init', function () {
             foreach (config('tiny-mce.plugins', []) as $name => $attrs) {
+
                 if (is_numeric($name)) {
                     $name  = (string)$attrs;
                     $attrs = [];
