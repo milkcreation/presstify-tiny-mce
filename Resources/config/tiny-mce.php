@@ -1,9 +1,5 @@
 <?php
 
-/**
- * Exemple de configuration.
- */
-
 return [
     /**
      * Attributs de configuration de tinyMCE.
@@ -144,7 +140,7 @@ return [
          */
         'ownglyphs' => [
             'hookname'           => 'tify',
-            'css'                => get_stylesheet_directory_uri() . '/src/fonts/presstify.com/styles.css',
+            'path'               => get_stylesheet_directory_uri() . '/src/fonts/presstify.com/styles.css',
             'version'            => '1.0',
             'dependencies'       => [],
             'prefix'             => 'tify-',
