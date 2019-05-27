@@ -1,6 +1,6 @@
 <?php
 
-namespace tiFy\Plugins\TinyMce\ExternalPlugins\OwnGlyphs;
+namespace tiFy\Plugins\TinyMce\ExternalPlugins\Ownglyphs;
 
 use tiFy\Plugins\TinyMce\ExternalPlugins\AbstractExternalPluginGlyph;
 
@@ -31,7 +31,7 @@ class Ownglyphs extends AbstractExternalPluginGlyph
 
         asset()->setInlineJs(
             "let glyphs=" . wp_json_encode($this->parseGlyphs()) . "," .
-            "tinymceOwnGlyphsl10n={'title':'{$this->get('title')}'};",
+            "tinymceOwnglyphsl10n={'title':'{$this->get('title')}'};",
             true
         );
 
