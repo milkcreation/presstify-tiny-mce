@@ -7,7 +7,7 @@ use tiFy\Plugins\TinyMce\ExternalPlugins\AbstractExternalPlugin;
 class JumpLine extends AbstractExternalPlugin
 {
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function boot()
     {
@@ -16,7 +16,7 @@ class JumpLine extends AbstractExternalPlugin
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function defaults()
     {
@@ -32,10 +32,10 @@ class JumpLine extends AbstractExternalPlugin
      */
     public function admin_init()
     {
-        if ((current_user_can('edit_posts') || current_user_can('edit_pages')) && get_user_option('rich_editing')) :
+        if ((current_user_can('edit_posts') || current_user_can('edit_pages')) && get_user_option('rich_editing')) {
             add_action('admin_enqueue_scripts', [$this, 'admin_enqueue_scripts']);
             add_filter('mce_css', [$this, 'mce_css']);
-        endif;
+        }
     }
 
     /**
@@ -69,13 +69,13 @@ class JumpLine extends AbstractExternalPlugin
      */
     public function wp_enqueue_scripts()
     {
-        if ($this->get('wp_enqueue_scripts') && $this->isActive()) :
+        if ($this->get('wp_enqueue_scripts') && $this->isActive()) {
             wp_enqueue_style(
                 'TinyMceExternalPluginsJumpLine',
                 $this->tinyMce()->getPluginAssetsUrl($this->getName()) . '/css/styles.css',
                 [],
                 160625
             );
-        endif;
+        }
     }
 }

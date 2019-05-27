@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace tiFy\Plugins\TinyMce;
 
@@ -11,7 +11,7 @@ use tiFy\Plugins\TinyMce\Contracts\ExternalPluginInterface;
  * @desc Extension PresstiFy de gestion de l'éditeur Wysiwyg TinyMCE.
  * @author Jordy Manner <jordy@milkcreation.fr>
  * @package tiFy\Plugins\TinyMce
- * @version 2.0.12
+ * @version 2.0.13
  *
  * USAGE :
  * Activation
@@ -37,7 +37,7 @@ use tiFy\Plugins\TinyMce\Contracts\ExternalPluginInterface;
  * Dans le dossier de config, créer le fichier tiny-mce.php
  * @see /vendor/presstify-plugins/tiny-mce/Resources/config/tiny-mce.php
  */
-final class TinyMce
+class TinyMce
 {
     /**
      * Liste des attributs de configuration complémentaires.
@@ -144,7 +144,7 @@ final class TinyMce
      *
      * @return void
      */
-    public function getExternalPluginsButtons($buttons = '')
+    public function getExternalPluginsButtons($buttons = ''): void
     {
         $exists = preg_split('#\||\s#', $buttons, -1, PREG_SPLIT_NO_EMPTY);
 
@@ -162,7 +162,7 @@ final class TinyMce
      *
      * @return string
      */
-    public function getPluginAssetsUrl($name)
+    public function getPluginAssetsUrl($name): string
     {
         $cinfo = class_info($this);
 
@@ -178,7 +178,7 @@ final class TinyMce
      *
      * @return string
      */
-    public function getPluginUrl($name)
+    public function getPluginUrl($name): string
     {
         $cinfo = class_info($this);
 
@@ -194,7 +194,7 @@ final class TinyMce
      *
      * @return $this
      */
-    public function setAdditionnalConfig($attrs)
+    public function setAdditionnalConfig($attrs): TinyMce
     {
         $this->additionnalConfig = array_merge($this->additionnalConfig, $attrs);
 
@@ -208,7 +208,7 @@ final class TinyMce
      *
      * @return $this
      */
-    public function setExternalPlugin(ExternalPluginInterface $externalPlugin)
+    public function setExternalPlugin(ExternalPluginInterface $externalPlugin): TinyMce
     {
         $this->externalPlugins[$externalPlugin->getName()] = $externalPlugin;
 

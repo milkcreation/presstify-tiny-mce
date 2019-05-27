@@ -7,7 +7,7 @@ use tiFy\Plugins\TinyMce\ExternalPlugins\AbstractExternalPlugin;
 class Template extends AbstractExternalPlugin
 {
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function boot()
     {
@@ -17,16 +17,16 @@ class Template extends AbstractExternalPlugin
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function defaults()
     {
         return [
             'wp_enqueue_scripts' => true,
-            'mce_init'         => [
+            'mce_init'           => [
                 'templates' => add_query_arg([
                     'action' => 'tinymce_plugin_template',
-                    'nonce'  => \wp_create_nonce('TinyMcePluginTemplate')
+                    'nonce'  => wp_create_nonce('TinyMcePluginTemplate')
                 ], admin_url('admin-ajax.php'))
             ]
         ];
@@ -51,9 +51,9 @@ class Template extends AbstractExternalPlugin
      */
     public function wp_ajax()
     {
-        if (!wp_verify_nonce($_GET['nonce'], 'TinyMcePluginTemplate')) :
+        if ( ! wp_verify_nonce($_GET['nonce'], 'TinyMcePluginTemplate')) {
             return;
-        endif;
+        }
 
         nocache_headers();
 
@@ -123,13 +123,13 @@ class Template extends AbstractExternalPlugin
      */
     public function wp_enqueue_scripts()
     {
-        if ($this->get('wp_enqueue_scripts') && $this->isActive()) :
+        if ($this->get('wp_enqueue_scripts') && $this->isActive()) {
             wp_enqueue_style(
                 'TinyMceExternalPluginsTemplate',
                 $this->tinyMce()->getPluginAssetsUrl($this->getName()) . '/css/styles.css',
                 [],
                 150317
             );
-        endif;
+        }
     }
 }

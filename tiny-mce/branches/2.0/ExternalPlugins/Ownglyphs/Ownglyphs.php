@@ -7,7 +7,7 @@ use tiFy\Plugins\TinyMce\ExternalPlugins\AbstractExternalPluginGlyph;
 class Ownglyphs extends AbstractExternalPluginGlyph
 {
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function boot()
     {
@@ -23,9 +23,9 @@ class Ownglyphs extends AbstractExternalPluginGlyph
      */
     public function admin_enqueue_scripts()
     {
-        if ($this->get('admin_enqueue_scripts')) :
+        if ($this->get('admin_enqueue_scripts')) {
             wp_enqueue_style($this->get('hookname'));
-        endif;
+        }
 
         wp_enqueue_style('tiFyTinyMceExternalPlugins' . class_info($this)->getShortName());
 
@@ -50,9 +50,9 @@ class Ownglyphs extends AbstractExternalPluginGlyph
      */
     public function mce_css($mce_css)
     {
-        if ($this->get('editor_enqueue_scripts')) :
-            $mce_css .= ', ' . $this->get('css');
-        endif;
+        if ($this->get('editor_enqueue_scripts')) {
+            $mce_css .= ', ' . url()->root($this->get('path'));
+        }
 
         return $mce_css . ', ' . $this->tinyMce()->getPluginAssetsUrl($this->getName()) . '/css/editor.css, ' .
             admin_url(
