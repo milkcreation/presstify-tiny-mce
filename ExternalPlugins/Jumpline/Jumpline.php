@@ -7,7 +7,7 @@ use tiFy\Plugins\TinyMce\ExternalPlugins\AbstractExternalPlugin;
 class JumpLine extends AbstractExternalPlugin
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function boot()
     {
@@ -16,7 +16,7 @@ class JumpLine extends AbstractExternalPlugin
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function defaults()
     {
@@ -45,22 +45,21 @@ class JumpLine extends AbstractExternalPlugin
      */
     public function admin_enqueue_scripts()
     {
-        assets()->addInlineJs(
-            "var tiFyTinyMCEJumpLinel10n={'title':'" . __('Saut de ligne', 'tify') . "'};",
-            'admin'
-        );
+        asset()->setInlineJs("let tiFyTinyMCEJumpLinel10n={'title':'" . __('Saut de ligne', 'tify') . "'};", true);
 
-        assets()->addInlineCss("i.mce-i-jumpline::before{content:'\\f474';font-family:'dashicons';}", 'admin');
+        asset()->setInlineCss("i.mce-i-jumpline::before{content:'\\f474';font-family:'dashicons';}");
     }
 
     /**
      * Ajout de styles dans l'éditeur tinyMCE.
      *
+     * @param string $mce_css Liste des url vers les feuilles de styles associées à tinyMCE.
+     *
      * @return string
      */
     public function mce_css($mce_css)
     {
-        return $mce_css .= ', ' . $this->tinyMce()->getPluginAssetsUrl($this->getName()) . '/css/editor.css';
+        return $mce_css . ', ' . $this->tinyMce()->getPluginAssetsUrl($this->getName()) . '/css/editor.css';
     }
 
     /**
@@ -71,7 +70,12 @@ class JumpLine extends AbstractExternalPlugin
     public function wp_enqueue_scripts()
     {
         if ($this->get('wp_enqueue_scripts') && $this->isActive()) :
-            wp_enqueue_style('TinyMceExternalPluginsJumpLine', $this->tinyMce()->getPluginAssetsUrl($this->getName()) . '/css/styles.css', [], 160625);
+            wp_enqueue_style(
+                'TinyMceExternalPluginsJumpLine',
+                $this->tinyMce()->getPluginAssetsUrl($this->getName()) . '/css/styles.css',
+                [],
+                160625
+            );
         endif;
     }
 }

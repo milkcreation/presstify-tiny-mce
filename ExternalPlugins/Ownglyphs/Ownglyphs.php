@@ -1,13 +1,13 @@
 <?php
 
-namespace tiFy\Plugins\TinyMce\ExternalPlugins\OwnGlyphs;
+namespace tiFy\Plugins\TinyMce\ExternalPlugins\Ownglyphs;
 
 use tiFy\Plugins\TinyMce\ExternalPlugins\AbstractExternalPluginGlyph;
 
 class Ownglyphs extends AbstractExternalPluginGlyph
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function boot()
     {
@@ -29,21 +29,22 @@ class Ownglyphs extends AbstractExternalPluginGlyph
 
         wp_enqueue_style('tiFyTinyMceExternalPlugins' . class_info($this)->getShortName());
 
-        assets()->addInlineJs(
-            "var glyphs=" . wp_json_encode($this->parseGlyphs()) . "," .
-            "tinymceOwnGlyphsl10n={'title':'{$this->get('title')}'};",
-            'admin'
+        asset()->setInlineJs(
+            "let glyphs=" . wp_json_encode($this->parseGlyphs()) . "," .
+            "tinymceOwnglyphsl10n={'title':'{$this->get('title')}'};",
+            true
         );
 
-        assets()->addInlineCss(
+        asset()->setInlineCss(
             "i.mce-i-ownglyphs::before{content:'{$this->glyphs[$this->get('button')]}';}" .
-            "i.mce-i-ownglyphs::before,.mce-grid a.ownglyphs{font-family:'{$this->get('font-family')}'!important;}",
-            'admin'
+            "i.mce-i-ownglyphs::before,.mce-grid a.ownglyphs{font-family:'{$this->get('font-family')}'!important;}"
         );
     }
 
     /**
      * Ajout de styles dans l'éditeur tinyMCE.
+     *
+     * @param string $mce_css Liste des url vers les feuilles de styles associées à tinyMCE.
      *
      * @return string
      */
@@ -53,7 +54,7 @@ class Ownglyphs extends AbstractExternalPluginGlyph
             $mce_css .= ', ' . $this->get('css');
         endif;
 
-        return $mce_css .= ', ' . $this->tinyMce()->getPluginAssetsUrl($this->getName()) . '/css/editor.css, ' .
+        return $mce_css . ', ' . $this->tinyMce()->getPluginAssetsUrl($this->getName()) . '/css/editor.css, ' .
             admin_url(
                 'admin-ajax.php?action=tify_tinymce_external_plugins_ownglyphs&bogus=' . current_time('timestamp')
             );
