@@ -3,13 +3,16 @@
 namespace tiFy\Plugins\TinyMce;
 
 use tiFy\Container\ServiceProvider;
-use tiFy\Plugins\TinyMce\ExternalPlugins\Dashicons\Dashicons;
-use tiFy\Plugins\TinyMce\ExternalPlugins\Fontawesome\Fontawesome;
-use tiFy\Plugins\TinyMce\ExternalPlugins\JumpLine\JumpLine;
-use tiFy\Plugins\TinyMce\ExternalPlugins\Ownglyphs\Ownglyphs;
-use tiFy\Plugins\TinyMce\ExternalPlugins\Table\Table;
-use tiFy\Plugins\TinyMce\ExternalPlugins\Template\Template;
-use tiFy\Plugins\TinyMce\ExternalPlugins\Visualblocks\Visualblocks;
+use tiFy\Plugins\TinyMce\{
+    ExternalPlugins\Dashicons\Dashicons,
+    ExternalPlugins\Fontawesome\Fontawesome,
+    ExternalPlugins\JumpLine\JumpLine,
+    ExternalPlugins\Ownglyphs\Ownglyphs,
+    ExternalPlugins\Table\Table,
+    ExternalPlugins\Template\Template,
+    ExternalPlugins\Visualblocks\Visualblocks
+};
+use tiFy\Support\Proxy\Field;
 
 class TinyMceServiceProvider extends ServiceProvider
 {
@@ -20,6 +23,7 @@ class TinyMceServiceProvider extends ServiceProvider
      */
     protected $provides = [
         'tiny-mce',
+        'tiny-mce.field',
         'tiny-mce.plugins.dashicons',
         'tiny-mce.plugins.fontawesome',
         'tiny-mce.plugins.jumpline',
@@ -36,6 +40,8 @@ class TinyMceServiceProvider extends ServiceProvider
     {
         add_action('after_setup_theme', function () {
             $this->getContainer()->get('tiny-mce');
+
+            Field::set("tinymce", $this->getContainer()->get("tiny-mce.field"));
         });
     }
 
@@ -44,11 +50,23 @@ class TinyMceServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->getContainer()->add('tiny-mce', function () {
+        $this->getContainer()->share('tiny-mce', function () {
             return new TinyMce($this->getContainer());
         });
-
+        $this->registerField();
         $this->registerPlugins();
+    }
+
+    /**
+     * Déclaration des controleurs de champs.
+     *
+     * @return void
+     */
+    public function registerField()
+    {
+        $this->getContainer()->add('tiny-mce.field', function() {
+            return (new TinyMceField())->setPlugin($this->getContainer()->get('tiny-mce'));
+        });
     }
 
     /**
