@@ -3,15 +3,14 @@
 namespace tiFy\Plugins\TinyMce;
 
 use Psr\Container\ContainerInterface;
-use tiFy\Plugins\TinyMce\Contracts\ExternalPluginInterface;
+use tiFy\Contracts\Container\Container;
+use tiFy\Plugins\TinyMce\Contracts\{ExternalPluginInterface, TinyMce as TinyMceContract};
 
 /**
- * Class TinyMce
- *
  * @desc Extension PresstiFy de gestion de l'éditeur Wysiwyg TinyMCE.
  * @author Jordy Manner <jordy@milkcreation.fr>
  * @package tiFy\Plugins\TinyMce
- * @version 2.0.13
+ * @version 2.0.14
  *
  * USAGE :
  * Activation
@@ -37,7 +36,7 @@ use tiFy\Plugins\TinyMce\Contracts\ExternalPluginInterface;
  * Dans le dossier de config, créer le fichier tiny-mce.php
  * @see /vendor/presstify-plugins/tiny-mce/Resources/config/tiny-mce.php
  */
-class TinyMce
+class TinyMce implements TinyMceContract
 {
     /**
      * Liste des attributs de configuration complémentaires.
@@ -49,7 +48,7 @@ class TinyMce
     /**
      * Conteneur d'injection de dépendances
      *
-     * @var ContainerInterface
+     * @var ContainerInterface|null
      */
     protected $container;
 
@@ -86,8 +85,8 @@ class TinyMce
                     $attrs = [];
                 }
 
-                if ($this->container->has("tiny-mce.plugins.{$name}")) {
-                    $this->container->get("tiny-mce.plugins.{$name}", [$name, $attrs]);
+                if ($this->getContainer()->has("tiny-mce.plugins.{$name}")) {
+                    $this->getContainer()->get("tiny-mce.plugins.{$name}", [$name, $attrs]);
                 }
             }
         }, 0);
@@ -138,11 +137,17 @@ class TinyMce
     }
 
     /**
-     * Récupération de la liste des boutons de plugins externes déclarés dans la configuration.
+     * {@inheritDoc}
      *
-     * @param string $buttons Liste des boutons définis dans la configuration.
-     *
-     * @return void
+     * @return Container
+     */
+    public function getContainer(): ?ContainerInterface
+    {
+        return $this->container;
+    }
+
+    /**
+     * @inheritDoc
      */
     public function getExternalPluginsButtons($buttons = ''): void
     {
@@ -156,11 +161,7 @@ class TinyMce
     }
 
     /**
-     * Récupération de l'url vers les assets d'un plugin.
-     *
-     * @param string $name Nom de qualification du plugin.
-     *
-     * @return string
+     * @inheritDoc
      */
     public function getPluginAssetsUrl($name): string
     {
@@ -172,11 +173,7 @@ class TinyMce
     }
 
     /**
-     * Récupération de l'url vers le scripts d'un plugin.
-     *
-     * @param string $name Nom de qualification du plugin.
-     *
-     * @return string
+     * @inheritDoc
      */
     public function getPluginUrl($name): string
     {
@@ -188,13 +185,34 @@ class TinyMce
     }
 
     /**
-     * Définition des attributs de configuration additionnels.
-     *
-     * @param array $attrs Liste des attributs de configuration additionnels.
-     *
-     * @return $this
+     * @inheritDoc
      */
-    public function setAdditionnalConfig($attrs): TinyMce
+    public function resourcesDir($path = ''): string
+    {
+        $path = $path ? '/' . ltrim($path, '/') : '';
+
+        return (file_exists(__DIR__ . "/Resources{$path}"))
+            ? __DIR__ . "/Resources{$path}"
+            : '';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function resourcesUrl($path = ''): string
+    {
+        $cinfo = class_info($this);
+        $path = $path ? '/' . ltrim($path, '/') : '';
+
+        return (file_exists($cinfo->getDirname() . "/Resources{$path}"))
+            ? $cinfo->getUrl() . "/Resources{$path}"
+            : '';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setAdditionnalConfig($attrs): TinyMceContract
     {
         $this->additionnalConfig = array_merge($this->additionnalConfig, $attrs);
 
@@ -202,13 +220,9 @@ class TinyMce
     }
 
     /**
-     * Déclaration d'un plugin.
-     *
-     * @param ExternalPluginInterface $externalPlugin Instance de la classe du plugin externe.
-     *
-     * @return $this
+     * @inheritDoc
      */
-    public function setExternalPlugin(ExternalPluginInterface $externalPlugin): TinyMce
+    public function setExternalPlugin(ExternalPluginInterface $externalPlugin): TinyMceContract
     {
         $this->externalPlugins[$externalPlugin->getName()] = $externalPlugin;
 
