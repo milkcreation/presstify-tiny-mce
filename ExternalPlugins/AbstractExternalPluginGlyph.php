@@ -3,7 +3,6 @@
 namespace tiFy\Plugins\TinyMce\ExternalPlugins;
 
 use Illuminate\Support\Collection;
-use tiFy\Kernel\Tools;
 
 abstract class AbstractExternalPluginGlyph extends AbstractExternalPlugin
 {
@@ -122,10 +121,14 @@ abstract class AbstractExternalPluginGlyph extends AbstractExternalPlugin
             $this->get('version')
         );
 
-        $css = Tools::File()->getContents($this->get('path'));
+        $path = (preg_match('/^'. preg_quote(ABSPATH, DIRECTORY_SEPARATOR) . '/', $this->get('path'), $match))
+          ? $this->get('path') : ABSPATH. $this->get('path');
+
+        $contents = file_get_contents($path);
+
         preg_match_all(
             "#." . $this->get('prefix') . "(.*):before\s*\{\s*content\:\s*\"(.*)\";\s*\}\s*#",
-            $css,
+            $contents,
             $matches
         );
         if (isset($matches[1])) {
