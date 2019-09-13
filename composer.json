@@ -9,8 +9,8 @@
     "e-commerce",
     "woocommerce"
   ],
-  "homepage": "https://svn.milkcreation.fr/presstify-plugins/tiny-mce",
-  "time": "2018-12-04",
+  "homepage": "https://svn.tigreblanc.fr/presstify-plugins/tiny-mce",
+  "time": "2019-09-13",
   "license": "proprietary",
   "authors": [
     {
@@ -28,7 +28,7 @@
   "require": {
     "composer/installers": "~1.0",
     "fortawesome/font-awesome": "^4.7",
-    "presstify/framework": ">=1.4"
+    "presstify/framework": "2.0.*"
   },
   "autoload": {
     "psr-4": {
