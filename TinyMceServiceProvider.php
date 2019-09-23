@@ -23,7 +23,6 @@ class TinyMceServiceProvider extends ServiceProvider
      */
     protected $provides = [
         'tiny-mce',
-        'tiny-mce.field',
         'tiny-mce.plugins.dashicons',
         'tiny-mce.plugins.fontawesome',
         'tiny-mce.plugins.jumpline',
@@ -40,8 +39,6 @@ class TinyMceServiceProvider extends ServiceProvider
     {
         add_action('after_setup_theme', function () {
             $this->getContainer()->get('tiny-mce');
-
-            Field::set("tinymce", $this->getContainer()->get("tiny-mce.field"));
         });
     }
 
@@ -53,20 +50,7 @@ class TinyMceServiceProvider extends ServiceProvider
         $this->getContainer()->share('tiny-mce', function () {
             return new TinyMce($this->getContainer());
         });
-        $this->registerField();
         $this->registerPlugins();
-    }
-
-    /**
-     * Déclaration des controleurs de champs.
-     *
-     * @return void
-     */
-    public function registerField()
-    {
-        $this->getContainer()->add('tiny-mce.field', function() {
-            return (new TinyMceField())->setPlugin($this->getContainer()->get('tiny-mce'));
-        });
     }
 
     /**
