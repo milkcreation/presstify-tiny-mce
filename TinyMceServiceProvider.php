@@ -12,7 +12,6 @@ use tiFy\Plugins\TinyMce\{
     ExternalPlugins\Template\Template,
     ExternalPlugins\Visualblocks\Visualblocks
 };
-use tiFy\Support\Proxy\Field;
 
 class TinyMceServiceProvider extends ServiceProvider
 {
