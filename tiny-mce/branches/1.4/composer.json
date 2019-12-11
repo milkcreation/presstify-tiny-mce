@@ -10,7 +10,7 @@
     "woocommerce"
   ],
   "homepage": "https://svn.tigreblanc.fr/presstify-plugins/tiny-mce",
-  "time": "2019-10-25",
+  "time": "2019-12-11",
   "license": "proprietary",
   "authors": [
     {
@@ -28,7 +28,7 @@
   "require": {
     "composer/installers": "~1.0",
     "fortawesome/font-awesome": "^4.7",
-    "presstify/framework": "2.0.*"
+    "presstify-plugins/bridge": "2.0.*"
   },
   "autoload": {
     "psr-4": {
