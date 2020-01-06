@@ -6,11 +6,11 @@
     "presstify",
     "plugins",
     "wordpress",
-    "e-commerce",
-    "woocommerce"
+    "tinyMce",
+    "wysiwyg"
   ],
-  "homepage": "https://svn.milkcreation.fr/presstify-plugins/tiny-mce",
-  "time": "2018-12-04",
+  "homepage": "https://svn.tigreblanc.fr/presstify-plugins/tiny-mce",
+  "time": "2020-01-05",
   "license": "proprietary",
   "authors": [
     {
