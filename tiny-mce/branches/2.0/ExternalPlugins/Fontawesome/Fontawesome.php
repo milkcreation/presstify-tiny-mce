@@ -14,9 +14,9 @@ class Fontawesome extends AbstractExternalPluginGlyph
         return array_merge(parent::defaults(), [
             'hookname'               => 'font-awesome',
             'path'                    => '/vendor/fortawesome/font-awesome/css/font-awesome.css',
-            'admin_enqueue_scripts'  => true,
+            'admin_enqueue_scripts'  => false,
             'editor_enqueue_scripts' => true,
-            'wp_enqueue_scripts'     => true,
+            'wp_enqueue_scripts'     => false,
             'dependencies'           => [],
             'prefix'                 => 'fa-',
             'font-family'            => 'fontAwesome',

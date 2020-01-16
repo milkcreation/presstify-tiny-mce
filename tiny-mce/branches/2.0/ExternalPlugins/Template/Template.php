@@ -22,7 +22,7 @@ class Template extends AbstractExternalPlugin
     public function defaults()
     {
         return [
-            'wp_enqueue_scripts' => true,
+            'wp_enqueue_scripts' => false,
             'mce_init'           => [
                 'templates' => add_query_arg([
                     'action' => 'tinymce_plugin_template',

@@ -50,9 +50,9 @@ abstract class AbstractExternalPluginGlyph extends AbstractExternalPlugin
         return [
             'hookname'               => 'dashicons',
             'path'                   => '/' . WPINC . '/css/dashicons.css',
-            'admin_enqueue_scripts'  => true,
+            'admin_enqueue_scripts'  => false,
             'editor_enqueue_scripts' => true,
-            'wp_enqueue_scripts'     => true,
+            'wp_enqueue_scripts'     => false,
             'version'                => current_time('timestamp'),
             'dependencies'           => [],
             'prefix'                 => 'dashicons-',
