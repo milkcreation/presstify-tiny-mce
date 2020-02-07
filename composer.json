@@ -6,11 +6,11 @@
     "presstify",
     "plugins",
     "wordpress",
-    "e-commerce",
-    "woocommerce"
+    "tinyMce",
+    "wysiwyg"
   ],
-  "homepage": "https://svn.milkcreation.fr/presstify-plugins/tiny-mce",
-  "time": "2018-12-04",
+  "homepage": "https://svn.tigreblanc.fr/presstify-plugins/tiny-mce",
+  "time": "2020-02-07",
   "license": "proprietary",
   "authors": [
     {
@@ -22,7 +22,7 @@
   "repositories": [
     {
       "type": "composer",
-      "url": "http://composer.tigreblanc.fr/presstify/"
+      "url": "https://composer.tigreblanc.fr/presstify"
     }
   ],
   "require": {
@@ -40,7 +40,6 @@
   "config" : {
     "optimize-autoloader": true,
     "preferred-install": "dist",
-    "secure-http": false,
     "sort-packages": true
   }
 }

@@ -1,9 +1,5 @@
 <?php
 
-/**
- * Exemple de configuration.
- */
-
 return [
     /**
      * Attributs de configuration de tinyMCE.
@@ -28,7 +24,7 @@ return [
             __('Noir', 'tify'),
             'FFFFFF',
             __('Blanc', 'tify'),
-            '848484',
+            '3B3B3B',
             __('Police standard', 'tify')
         ],
 
@@ -76,44 +72,64 @@ return [
                 'classes' => 'uppercase'
             ],
             [
-                'title'    => __('Bouton 1', 'tify'),
+                'title'    => __('Bouton #1', 'tify'),
                 'selector' => 'a',
                 'classes'  => 'Button--1'
             ],
             [
-                'title'    => __('Bouton 1 inversé', 'tify'),
+                'title'    => __('Bouton #1 alternatif', 'tify'),
                 'selector' => 'a',
-                'classes'  => 'Button--1 Button--inverted'
+                'classes'  => 'Button--1 Button--alt'
             ],
             [
-                'title'    => __('Bouton 2', 'tify'),
+                'title'    => __('Bouton #2', 'tify'),
                 'selector' => 'a',
                 'classes'  => 'Button--2'
             ],
             [
-                'title'    => __('Bouton 2 inversé', 'tify'),
+                'title'    => __('Bouton #2 alternatif', 'tify'),
                 'selector' => 'a',
-                'classes'  => 'Button--2 Button--inverted'
+                'classes'  => 'Button--2 Button--alt'
             ],
             [
-                'title'    => __('Etiquette 1', 'tify'),
+                'title'    => __('Bouton 3', 'tify'),
+                'selector' => 'a',
+                'classes'  => 'Button--2'
+            ],
+            [
+                'title'    => __('Bouton #3 alternatif', 'tify'),
+                'selector' => 'a',
+                'classes'  => 'Button--3 Button--alt'
+            ],
+            [
+                'title'    => __('Etiquette #1', 'tify'),
                 'selector' => 'p, span',
                 'classes'  => 'Label--1'
             ],
             [
-                'title'    => __('Etiquette 1 inversée', 'tify'),
+                'title'    => __('Etiquette #1 alternative', 'tify'),
                 'selector' => 'p, span',
-                'classes'  => 'Label--1 Label--inverted'
+                'classes'  => 'Label--1 Label--alt'
             ],
             [
-                'title'    => __('Etiquette 2', 'tify'),
+                'title'    => __('Etiquette #2', 'tify'),
                 'selector' => 'p, span',
                 'classes'  => 'Label--2'
             ],
             [
-                'title'    => __('Etiquette 2 inversée', 'tify'),
+                'title'    => __('Etiquette #2 alternative', 'tify'),
                 'selector' => 'p, span',
-                'classes'  => 'Label--2 Label--inverted'
+                'classes'  => 'Label--2 Label--alt'
+            ],
+            [
+                'title'    => __('Etiquette #3', 'tify'),
+                'selector' => 'p, span',
+                'classes'  => 'Label--3'
+            ],
+            [
+                'title'    => __('Etiquette #3 alternative', 'tify'),
+                'selector' => 'p, span',
+                'classes'  => 'Label--3 Label--alt'
             ]
         ]
     ],
@@ -142,17 +158,17 @@ return [
          * @see http://fontello.com/
          * @see https://icomoon.io/app/#/select
          */
-        'ownglyphs' => [
-            'hookname'           => 'tify',
-            'css'                => get_stylesheet_directory_uri() . '/src/fonts/presstify.com/styles.css',
+        /*'ownglyphs' => [
+            'hookname'           => '{{ example }}',
+            'path'               => get_stylesheet_directory_uri() . '/src/fonts/{{ example }}/styles.css',
             'version'            => '1.0',
             'dependencies'       => [],
-            'prefix'             => 'tify-',
-            'font-family'        => 'tify',
+            'prefix'             => '{{ example }}',
+            'font-family'        => '{{ ExampleFontFamily }}',
             'button'             => 'logo',
-            'title'              => __('Police de glyphs presstiFy', 'tify'),
+            'title'              => __('Police de glyphs d\'exemple', 'tify'),
             'cols'               => 8
-        ],
+        ],*/
 
         /**
          * Gestion des tableaux.
