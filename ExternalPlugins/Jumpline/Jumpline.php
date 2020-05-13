@@ -1,10 +1,10 @@
 <?php
 
-namespace tiFy\Plugins\TinyMce\ExternalPlugins\JumpLine;
+namespace tiFy\Plugins\TinyMce\ExternalPlugins\Jumpline;
 
 use tiFy\Plugins\TinyMce\ExternalPlugins\AbstractExternalPlugin;
 
-class JumpLine extends AbstractExternalPlugin
+class Jumpline extends AbstractExternalPlugin
 {
     /**
      * @inheritDoc

@@ -141,7 +141,7 @@ return [
         'dashicons',
 
         /**
-         * Intégration de la police de glyphs FontAwesome.
+         * Intégration de la police de glyphs Fontawesome.
          * @see https://fontawesome.com/icons?d=gallery
          */
         'fontawesome',
