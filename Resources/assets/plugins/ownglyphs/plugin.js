@@ -32,7 +32,7 @@ tinymce.PluginManager.add('ownglyphs', function (editor, url) {
         };
 
         win = editor.windowManager.open({
-            title: tinymceOwnGlyphsl10n.title,
+            title: tinymceOwnglyphsl10n.title,
             spacing: 10,
             padding: 10,
             items: [glyphsPanel],
@@ -48,6 +48,6 @@ tinymce.PluginManager.add('ownglyphs', function (editor, url) {
 
     editor.addButton('ownglyphs', {
         onclick: showDialog,
-        tooltip: tinymceOwnGlyphsl10n.title
+        tooltip: tinymceOwnglyphsl10n.title
     });
 });
