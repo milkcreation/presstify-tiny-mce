@@ -1,6 +1,6 @@
 <?php
 
-namespace tiFy\Plugins\TinyMce\ExternalPlugins\FontAwesome;
+namespace tiFy\Plugins\TinyMce\ExternalPlugins\Fontawesome;
 
 use tiFy\Plugins\TinyMce\ExternalPlugins\AbstractExternalPluginGlyph;
 

@@ -6,7 +6,7 @@ use tiFy\Container\ServiceProvider;
 use tiFy\Plugins\TinyMce\{
     ExternalPlugins\Dashicons\Dashicons,
     ExternalPlugins\Fontawesome\Fontawesome,
-    ExternalPlugins\JumpLine\JumpLine,
+    ExternalPlugins\Jumpline\Jumpline,
     ExternalPlugins\Ownglyphs\Ownglyphs,
     ExternalPlugins\Table\Table,
     ExternalPlugins\Template\Template,
@@ -64,11 +64,11 @@ class TinyMceServiceProvider extends ServiceProvider
         });
 
         $this->getContainer()->add('tiny-mce.plugins.fontawesome', function ($name, $attrs) {
-            return new FontAwesome('fontawesome', $attrs, $this->getContainer()->get('tiny-mce'));
+            return new Fontawesome('fontawesome', $attrs, $this->getContainer()->get('tiny-mce'));
         });
 
         $this->getContainer()->add('tiny-mce.plugins.jumpline', function ($name, $attrs) {
-            return new JumpLine('jumpline', $attrs, $this->getContainer()->get('tiny-mce'));
+            return new Jumpline('jumpline', $attrs, $this->getContainer()->get('tiny-mce'));
         });
 
         $this->getContainer()->add('tiny-mce.plugins.ownglyphs', function ($name, $attrs) {
