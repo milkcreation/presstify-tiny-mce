@@ -163,11 +163,10 @@ abstract class AbstractExternalPluginGlyph extends AbstractExternalPlugin
      */
     public function parseGlyphs()
     {
-        $items      = array_map(function ($value) {
+        $items = array_map(function ($value) {
             return preg_replace('#' . preg_quote('\\') . '#', '&#x', $value);
-        },
-            $this->glyphs
-        );
+        }, $this->glyphs);
+
         $collection = new Collection($items);
 
         return $collection->chunk($this->get('cols'))->toArray();
