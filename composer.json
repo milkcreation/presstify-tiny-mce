@@ -9,8 +9,8 @@
     "tinyMce",
     "wysiwyg"
   ],
-  "homepage": "https://svn.tigreblanc.fr/presstify-plugins/tiny-mce",
-  "time": "2020-06-04",
+  "homepage": "https://svn.tigreblanc.fr/presstify-plugins/tiny-mce/",
+  "time": "2020-11-10",
   "license": "proprietary",
   "authors": [
     {
@@ -22,7 +22,7 @@
   "repositories": [
     {
       "type": "composer",
-      "url": "https://composer.tigreblanc.fr/presstify"
+      "url": "https://composer.tigreblanc.fr/presstify/"
     }
   ],
   "require": {

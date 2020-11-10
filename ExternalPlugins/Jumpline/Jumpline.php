@@ -21,7 +21,7 @@ class Jumpline extends AbstractExternalPlugin
     public function defaults()
     {
         return [
-            'wp_enqueue_scripts' => true
+            'wp_enqueue_scripts' => false
         ];
     }
 
