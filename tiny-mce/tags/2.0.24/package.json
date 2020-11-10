@@ -1,9 +1,0 @@
-{
-  "private": true,
-  "name": "presstify-plugins-framework",
-  "version": "2.0.0",
-  "dependencies": {
-    "tinymce": "^5.0.14",
-    "tinymce-i18n": "^19.5.15"
-  }
-}
